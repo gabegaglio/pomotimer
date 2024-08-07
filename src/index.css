@@ -5,9 +5,489 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow:hidden;
+  height:100vh;
+  width: 100vw;
+  background-repeat: none;
+  background-size:cover;
+  background-position: center;
+  background-attachment:fixed;
+
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.App {
+  margin:0;
+  text-align: center;
+  width:100%;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  align-items: center;
+  justify-content: center;
+  overflow:hidden;
+}
+
+@media (max-width: 700px) {
+  .App {
+    overflow-y: auto;
+    height: auto;
+  }
+}
+
+.contentWrap{
+  width:100%;
+  height:100%;
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display:flex;
+  flex-direction:column;
+  align-items: center;
+  justify-content: center;
+
+}
+
+
+/*HEADER CONTAINER*/
+.headerContainer{
+  width:100%;
+  display:flex;
+  justify-content: flex-end;
+  align-items: center;
+  z-index:1000;
+}
+
+.webName{
+  color:white;
+  font-size:.6rem;
+}
+
+.menuDiv{
+  margin-inline:10px;
+  height:100%;
+  display:grid;
+  place-items:center;
+  flex-flow:column nowrap;
+  z-index:10;
+  width:2rem;
+  height:2rem;
+  cursor: pointer;
+  transition: .5s ease;
+}
+
+.burger{
+  width: 2rem;
+  height: 0.25rem;
+  border-radius: 10px;
+  background-color: white;
+  transform-origin:1px;
+  transition: ease .1s;
+}
+
+.menuDiv:hover .burger{
+  background:rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 30px rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter:blur(4px);
+}
+
+.popMenu{
+  position: fixed;
+  width: 50vw;
+  height: 70vh;
+  margin-bottom:100px;
+  background: rgb(99, 14, 14);
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  z-index: 1;
+  border-radius:10px;
+}
+
+.popContent{
+  border-radius:10px;
+  position:relative;
+  width:100%;
+  height:100%;
+  text-align: center;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.4);
+  overflow-y:auto;
+}
+
+
+.closeMenu{
+  color:white;
+  margin:0;
+  top:.1px;
+  display:flex;
+  justify-content: flex-end;
+  position: sticky;
+  padding-right:15px;
+  font-size:3rem;
+  cursor: pointer;
+  z-index:1;
+  float:right;
+}
+
+.popSettings{
+  margin-top:0px;
+  width:100%;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size:2rem;
+  padding:10px;
+
+  color:white;
+  background:rgba(255,255,255,0.2);
+  box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter:blur(4px);
+}
+
+
+.inputContainer{
+  width:fit-content;
+  height:auto;
+  display:grid;
+  grid-template-columns: max-content 1fr;
+  gap: 10px 10px;
+  margin-left:10px;
+}
+
+.inputDiv{
+  margin-block:3vh;
+  display:contents;
+}
+
+label{
+  grid-column: 1;
+  text-align: center;
+  place-self: center ;
+  color:white;
+  font-size:1.5rem;
+  width:100%;
+  background:rgba(255,255,255,0.2);
+  box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter:blur(4px);
+  border-radius:10px;
+  padding:10px;
+}
+
+input{
+  text-align: center;
+  grid-column: 2;
+  align-self:center;
+  width:fit-content;
+  margin:0;
+  padding:0;
+  font-size:1.4rem;
+  border:none;
+  border-radius:10px;
+  outline:none;
+  appearance: none;
+  -webkit-appearence:none;
+  -moz-appearence: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.colorInput{
+width:60%;
+height:60%;
+cursor: pointer;
+overflow:hidden;
+background: none;
+margin:auto;
+box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+}
+
+.fileInput {
+  position: absolute;
+  top: 0;
+  left:0;
+  opacity: 0;
+  cursor: pointer;
+  border-radius:10px;
+  width:100%;
+  height:100%;
+}
+
+.fileInputLabel {
+  display: inline-block;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius:10px;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: center;
+  transition: ease 0.1s;
+  position:relative;
+}
+
+.fileInputLabel:hover {
+  background-color: rgb(255, 255, 255, .0);
+}
+
+
+.reset{
+  text-align: center;
+  place-self: center ;
+  color:white;
+  font-size:1.5rem;
+  width:100%;
+  background:rgba(255,255,255,0.2);
+  box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter:blur(4px);
+  border-radius:10px;
+  padding:10px;
+  border:none;
+  cursor: pointer;
+  transition:ease .1s;
+}
+
+.reset:hover{
+background:rgba(255,255,255,0);
+}
+
+
+
+
+.wrap{
+  display:flex;
+  flex-flow:column-reverse;
+  justify-content: center;
+  align-items: start;
+}
+
+.desc{
+  justify-self:start;
+  border-radius:10px;
+  color:white;
+  text-align: left;
+  font-size:1rem;
+  padding:10px;
+  margin:10px;
+  background:rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 30px rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter:blur(4px);
+}
+
+.desc h1{
+  font-size:1.5rem;
+  white-space: nowrap;
+}
+
+.desc li{
+  font-size:1.2rem;
+  padding:5px;
+}
+
+
+/*clock container*/
+.clockContainer{
+  width:100%;
+  text-align:center;
+  background:rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter:blur(4px);
+  margin-bottom:5vh;
+  white-space: nowrap;
+}
+
+.clockContainer,.buttonContainer, .startContainer{
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+  align-items: center;
+  width: 100%;
+  gap: 10px; /* Add some gap between buttons */
+}
+
+/*btn css*/
+.btn{
+  color: white;
+  background:rgba(255, 255, 255, 0.2);
+  border-radius:16px;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter:blur(4px);
+
+  display: flex;
+  flex-direction: start;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 auto; 
+
+  max-width: fit-content;
+  height:80px;
+  padding-inline: 20px;
+  margin:10px;
+
+  border:none;
+  border-radius:20px;
+
+  white-space: nowrap;
+  font-size:2em;  
+  cursor: pointer;
+  transition:.2s ease;
+}
+
+.btn:hover{
+  transform:scale(1.1);
+  background-color: #ffffff00;
+}
+
+.btn:not(.startBtn,.resetBtn):focus{
+  transform:scale(1.1);
+  background:rgba(255,255,255,0.4);
+}
+
+
+
+.timerContainer{
+  width:100%;
+  height:auto;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  margin-block:5vh;
+}
+
+.timer, .clock{
+  color:white;
+  margin-bottom:10px;
+  font-size:5rem;
+  border-radius:20px;
+  padding-inline:10px;
+  width:fit-content;
+}
+
+  
+
+
+@media (max-width: 700px){
+
+  .popMenu{
+    width:80%;
+  }
+  
+  input,label, .reset,.desc{
+    font-size:1.6rem;
+  }
+ 
+  .buttonContainer,.startContainer,.timeContainer,.clockContainer{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .buttonContainer button, .startContainer button{
+    flex: 1 1 30%; /* Allow buttons to shrink to 30% of container on small screens */
+    padding: 10px; /* Adjust padding for smaller screens */
+    font-size: 1.6rem; /* Slightly smaller font size on small screens */
+    height:60px;
+
+  }
+
+  .buttonContainer button{
+    max-width:100%;
+  }
+  
+  .startContainer button{
+    width: fit-content;
+    padding-inline:50px;
+  }
+
+  .timer, .clock{
+    font-size:5rem;
+  }
+
+  .webName{
+    font-size:.6rem;
+  }
+  .burger{
+    width: 1.5rem;
+  height: 0.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  
+  .popMenu{
+    width:85%;
+  }
+  
+  input,label, .reset, .desc{
+    font-size:1.4rem;
+  }
+
+  .buttonContainer button, .startContainer button {
+    flex: 1 1 100%; /* Allow buttons to shrink appropriately */
+    padding-inline: 10px; /* Adjust padding for smaller screens */
+    font-size: 1.3rem; /* Slightly smaller font size on small screens */
+    height: 60px;
+  }
+
+  .startContainer button{
+    padding-inline:20px;
+  }
+  .timer, .clock, {
+    font-size: 3rem;
+  }
+
+  .headerContainer{
+    justify-content: space-between;
+  }
+
+  .webName{
+    margin-left:5px;
+  }
+}
+
+@media (max-width: 400px) {
+  .popMenu{
+    width:85%;
+  }
+  
+  input,label,.reset, .desc{
+    font-size:1.2rem;
+  }
+  
+.buttonContainer button{
+  font-size: 1rem; /* Slightly smaller font size on small screens */
+}
+
+}
+
+
+
+
+
+
+
+
+
+
