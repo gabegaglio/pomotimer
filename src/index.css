@@ -12,9 +12,9 @@ body,html{
   background-position: center;
   background-attachment:fixed;
   text-decoration:none;
-  height:100%;
-  width:100%;
-  z-index: 1
+  z-index: 1;
+  width: 100%;
+  height: 100%;
 }
 
 *,
@@ -41,20 +41,21 @@ code {
   z-index:2;
 }
 
-
 .contentWrap{
+  width:100vw;
+  height:100vh;
+}
+
+.contentContainer{
   width:100%;
-  height:100%;
-  position:absolute;
-  top: 45%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+
+  height: 80%;
   display:flex;
   flex-direction:column;
   align-items: center;
   justify-content: center;
   z-index:3;
-  overflow-y:scroll;
+  margin:0px;
 }
 
 /*HEADER CONTAINER*/
@@ -82,6 +83,7 @@ code {
   height:2rem;
   cursor: pointer;
   transition: .5s ease;
+  z-index: 1001;
 }
 
 .burger{
@@ -321,10 +323,10 @@ background:rgba(255,255,255,0);
   text-align:center;
   background:rgba(255, 255, 255, 0.2);
   box-shadow: 0 4px 30px rgba(0,0,0,0.1);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter:blur(4px);
-  margin-bottom:5vh;
+ 
+  margin-bottom:10vh;
   white-space: nowrap;
+  z-index:0;
 }
 .buttonContainer, .startContainer{
   display: grid;
@@ -334,14 +336,17 @@ background:rgba(255,255,255,0);
   gap: 10px; /* Add some gap between buttons */
 }
 
+.startContainer{
+  width:70%;
+}
+
 /*btn css*/
 .btn{
   color: white;
   background:rgba(255, 255, 255, 0.2);
   border-radius:16px;
   box-shadow: 0 4px 30px rgba(0,0,0,0.1);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter:blur(4px);
+ 
 
 
   display:flex;
@@ -445,7 +450,6 @@ background:rgba(255,255,255,0);
   .btn{
     font-size: 1rem; /* Slightly smaller font size on small screens */
     height: 60px;
-    width: 100%;
     gap:10px;
   }
 
@@ -465,20 +469,24 @@ background:rgba(255,255,255,0);
   .popMenu{
     width:85%;
   }
+
+  .btn{
+    font-size: .8em;
+  }
   
   input,label,.reset, .desc{
     font-size:1.2rem;
   }
   
-
 }
+
 
 @media (max-height:600px){
   .webName{display:none;}
   .headerContainer{justify-content: flex-end;}
   .clock,.timer{font-size:3rem;}
   .buttonContainer button, .startContainer button{
-    font-size:1.4em;
+    font-size:1.2em;
     height:60px;
   }
 }

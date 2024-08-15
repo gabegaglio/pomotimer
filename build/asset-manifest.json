@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/pomobud/static/css/main.a51eaddb.css",
+    "main.js": "/pomobud/static/js/main.458a3285.js",
+    "index.html": "/pomobud/index.html",
+    "main.a51eaddb.css.map": "/pomobud/static/css/main.a51eaddb.css.map",
+    "main.458a3285.js.map": "/pomobud/static/js/main.458a3285.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a51eaddb.css",
+    "static/js/main.458a3285.js"
+  ]
+}
