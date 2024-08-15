@@ -26,7 +26,21 @@ const Header = ({
 
   const [menuOpen, setMenuOpen] = useState(false);
   
-  const toggleMenu = () => setMenuOpen(!menuOpen);
+  const toggleMenu = () => {
+    const newMenuOpen = !menuOpen;
+    setMenuOpen(newMenuOpen);
+    
+    const contentWrap = document.querySelector('.contentWrap');
+    const body = document.querySelector('body');
+
+    if (contentWrap) {
+      contentWrap.style.filter = newMenuOpen ? 'blur(5px)' : 'none';
+    }
+ 
+    
+  };
+    
+
   const handlePomoChange = (e) => {
     setPomoInput(parseInt(e.target.value || 25));
     console.log("pomo input change:", pomoInput);
@@ -81,10 +95,10 @@ const Header = ({
       {menuOpen && ( /* logical &&, if menuOpen is true opens up the menu */
         <div className='popMenu' style={{ backgroundColor: color }}>
           <div className='popContent'>
-            <div className='closeMenu' onClick={toggleMenu}>
+            <div className='closeButton' onClick={toggleMenu}>
               &times;
             </div>
-              <p className='popSettings'>Settings</p>
+              <p className="popHeader">Settings</p>
             <div className="wrap">
                 <div className="desc">
                       <h1>How To Use Pomodoro</h1>

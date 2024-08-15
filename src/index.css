@@ -1,18 +1,20 @@
-body {
+
+
+body,html{
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow:hidden;
-  height:100vh;
-  width: 100vw;
   background-repeat: none;
   background-size:cover;
   background-position: center;
   background-attachment:fixed;
-
+  text-decoration:none;
+  height:100%;
+  width:100%;
+  z-index: 1
 }
 
 *,
@@ -29,25 +31,20 @@ code {
 .App {
   margin:0;
   text-align: center;
-  width:100%;
-  height:100%;
   display:flex;
   flex-direction:column;
   align-items: center;
   justify-content: center;
-  overflow:hidden;
+  background-repeat:no-repeat;
+  background-size:cover;
+  background-attachment:fixed;
+  z-index:2;
 }
 
-@media (max-width: 700px) {
-  .App {
-    overflow-y: auto;
-    height: auto;
-  }
-}
 
 .contentWrap{
-  width:100%;
-  height:100%;
+  height:100vh;
+  width:100vw;
   position: absolute;
   top: 45%;
   left: 50%;
@@ -56,9 +53,8 @@ code {
   flex-direction:column;
   align-items: center;
   justify-content: center;
-
+  z-index:3;
 }
-
 
 /*HEADER CONTAINER*/
 .headerContainer{
@@ -112,8 +108,9 @@ code {
   top:50%;
   left:50%;
   transform:translate(-50%,-50%);
-  z-index: 1;
+  z-index: 1000;
   border-radius:10px;
+  filter:none;
 }
 
 .popContent{
@@ -127,7 +124,7 @@ code {
 }
 
 
-.closeMenu{
+.closeButton{
   color:white;
   margin:0;
   top:.1px;
@@ -141,7 +138,7 @@ code {
   float:right;
 }
 
-.popSettings{
+.popHeader{
   margin-top:0px;
   width:100%;
   display:flex;
@@ -192,7 +189,7 @@ input{
   text-align: center;
   grid-column: 2;
   align-self:center;
-  width:fit-content;
+  width:100%;
   margin:0;
   padding:0;
   font-size:1.4rem;
@@ -211,13 +208,14 @@ input::-webkit-inner-spin-button {
 }
 
 .colorInput{
-width:60%;
+width:80%;
 height:60%;
+border:1px black;
 cursor: pointer;
 overflow:hidden;
 background: none;
 margin:auto;
-box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+box-shadow: 0 4px 30px rgba(0,0,0,0.3);
 }
 
 .fileInput {
@@ -307,6 +305,10 @@ background:rgba(255,255,255,0);
 
 /*clock container*/
 .clockContainer{
+  display:flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items:center;
   width:100%;
   text-align:center;
   background:rgba(255, 255, 255, 0.2);
@@ -316,13 +318,11 @@ background:rgba(255,255,255,0);
   margin-bottom:5vh;
   white-space: nowrap;
 }
-
-.clockContainer,.buttonContainer, .startContainer{
-  display: flex;
-  justify-content: center;
-  flex-wrap: nowrap;
-  align-items: center;
-  width: 100%;
+.buttonContainer, .startContainer{
+  display: grid;
+  place-items:center;
+  grid-template-columns: repeat(3,1fr);
+  width: 90%;
   gap: 10px; /* Add some gap between buttons */
 }
 
@@ -335,22 +335,24 @@ background:rgba(255,255,255,0);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter:blur(4px);
 
-  display: flex;
-  flex-direction: start;
+
+  display:flex;
   align-items: center;
   justify-content: center;
-  flex: 1 1 auto; 
+  width: 80%;
+  max-width:none;
+  min-widtH:0;
 
-  max-width: fit-content;
+  
   height:80px;
-  padding-inline: 20px;
   margin:10px;
+  padding-inline:10px;
 
   border:none;
   border-radius:20px;
 
   white-space: nowrap;
-  font-size:2em;  
+  font-size:1.6em;  
   cursor: pointer;
   transition:.2s ease;
 }
@@ -385,10 +387,14 @@ background:rgba(255,255,255,0);
   width:fit-content;
 }
 
+.timer{
+  background-color: rgba(255, 255, 255, 0.14);
+}
+
   
 
 
-@media (max-width: 700px){
+@media (max-width: 768px){
 
   .popMenu{
     width:80%;
@@ -398,31 +404,10 @@ background:rgba(255,255,255,0);
     font-size:1.6rem;
   }
  
-  .buttonContainer,.startContainer,.timeContainer,.clockContainer{
-    display:flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .buttonContainer button, .startContainer button{
-    flex: 1 1 30%; /* Allow buttons to shrink to 30% of container on small screens */
-    padding: 10px; /* Adjust padding for smaller screens */
-    font-size: 1.6rem; /* Slightly smaller font size on small screens */
-    height:60px;
-
-  }
-
-  .buttonContainer button{
-    max-width:100%;
-  }
-  
-  .startContainer button{
-    width: fit-content;
-    padding-inline:50px;
-  }
+  .btn{font-size:1.4em;}
 
   .timer, .clock{
-    font-size:5rem;
+    font-size:4.8rem;
   }
 
   .webName{
@@ -434,6 +419,11 @@ background:rgba(255,255,255,0);
   }
 }
 
+@media(max-width: 600px){
+  .btn{font-size:1.2em;}
+}
+
+
 @media (max-width: 480px) {
   
   .popMenu{
@@ -444,24 +434,20 @@ background:rgba(255,255,255,0);
     font-size:1.4rem;
   }
 
-  .buttonContainer button, .startContainer button {
-    flex: 1 1 100%; /* Allow buttons to shrink appropriately */
-    padding-inline: 10px; /* Adjust padding for smaller screens */
-    font-size: 1.3rem; /* Slightly smaller font size on small screens */
+  .btn{
+    font-size: 1rem; /* Slightly smaller font size on small screens */
     height: 60px;
+    width: 100%;
+    gap:10px;
   }
 
-  .startContainer button{
-    padding-inline:20px;
-  }
-  .timer, .clock, {
+  .timer, .clock {
     font-size: 3rem;
   }
 
   .headerContainer{
     justify-content: space-between;
   }
-
   .webName{
     margin-left:5px;
   }
@@ -476,10 +462,27 @@ background:rgba(255,255,255,0);
     font-size:1.2rem;
   }
   
-.buttonContainer button{
-  font-size: 1rem; /* Slightly smaller font size on small screens */
+
 }
 
+@media (max-height:600px){
+  .webName{display:none;}
+  .headerContainer{justify-content: flex-end;}
+  .clock,.timer{font-size:3rem;}
+  .buttonContainer button, .startContainer button{
+    font-size:1.4em;
+    height:60px;
+  }
+}
+
+@media(max-height:400px){
+  .webName{display:none;}
+  .clock,.timer{font-size:2rem;}
+  .clockContainer{margin-top:20px;}
+  .buttonContainer button, .startContainer button {
+    font-size: 1rem; /* Slightly smaller font size on small screens */
+    height: 40px;
+  }
 }
 
 

@@ -29,8 +29,10 @@ function App() {
   useEffect(() => {
     const savedBackground = localStorage.getItem('backgroundPicture');
     if (savedBackground) {
-      document.body.style.backgroundImage = `url(${savedBackground})`;
+      document.querySelector('body').style.backgroundImage = `url(${savedBackground})`;
       console.log("set saved background image");
+    } else {
+      document.querySelector('body').style.backgroundImage = `none`;
     }
   }, [backgroundPicture]);
 
@@ -102,7 +104,7 @@ function App() {
 
   return (
     <div className="App" >
-        <Header 
+      <Header 
           pomoInput={pomoInput}
           setPomoInput={setPomoInput}
           longInput={longInput}
@@ -115,7 +117,7 @@ function App() {
           setBackgroundPicture={setBackgroundPicture}          
         />
         
-            <div className="contentWrap">
+        <div className="contentWrap">
             <Clock />
             
             <Pomobtn 
@@ -133,9 +135,10 @@ function App() {
             onPause={handlePause} 
             onReset={handleReset} 
             />
-            </div>
+             
+         </div>
 
-
+        
     </div>
         
   );
