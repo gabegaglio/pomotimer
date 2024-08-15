@@ -4,9 +4,12 @@ import Pomobtn from './Pomobtn.js';
 import Timer from './Timer.js';
 import Start from './Start.js';
 import Description from './Description.js';
+import ding from './assets/ding.mp3';
 import React, { useState, useEffect } from 'react';
 
 function App() {
+  
+
   //CODE FOR INPUTS/SETTINGS--------------------------------------------------
   //gets values based on local storage or defaults
   const [pomoInput, setPomoInput] = useState(
@@ -59,6 +62,11 @@ function App() {
   //to make sure timer only starts when start button clicked
   const [startTimer, setStartTimer] = useState(false);
 
+  const timerDone = () => {
+    const audio = new Audio(ding);
+    audio.play();
+  };
+
   useEffect(() => {
     let timer;
     //startTimer condition
@@ -72,10 +80,28 @@ function App() {
     } else if (time === 0) {
       setIsRunning(false);
       clearInterval(timer);
+      timerDone();
     }
     return () => clearInterval(timer);
   }, [startTimer, time]);
   //waits for time value and for startTime to be true
+
+  const formatTime = (timeInSeconds) => {
+    //converts to minutes
+    const minutes = Math.floor(timeInSeconds / 60).toString();
+    //takes left over seconds
+    const seconds = (timeInSeconds % 60).toString().padStart(2, '0');
+    // Check if minutes is more than 0 to avoid padding with '0'
+    const formattedMinutes = minutes > 0 ? minutes : '0';
+
+    if (formattedMinutes === '0' && seconds === '00') {
+      document.title = 'Times Up!';
+    } else {
+      document.title = `${formattedMinutes}:${seconds}`;
+    }
+
+    return `${formattedMinutes}:${seconds}`;
+  };
 
   const handleStart = () => {
     setStartTimer(true);
@@ -99,16 +125,7 @@ function App() {
     setStartTimer(false);
   };
 
-  const formatTime = (timeInSeconds) => {
-    //converts to minutes
-    const minutes = Math.floor(timeInSeconds / 60).toString();
-    //takes left over secONDS
-    const seconds = (timeInSeconds % 60).toString().padStart(2, '0');
-    // Check if minutes is more than 0 to avoid padding with '0'
-    const formattedMinutes = minutes > 0 ? minutes : '0';
 
-    return `${formattedMinutes}:${seconds}`;
-  };
 
   return (
     <div className="App">
@@ -146,6 +163,7 @@ function App() {
           />
         </div>
       </div>
+      <Description />
     </div>
   );
 }
