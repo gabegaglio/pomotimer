@@ -3,6 +3,7 @@ import Clock from './Clock.js';
 import Pomobtn from './Pomobtn.js';
 import Timer from './Timer.js';
 import Start from './Start.js';
+import Description from './Description.js';
 import React, { useState, useEffect } from 'react';
 
 
@@ -135,10 +136,9 @@ function App() {
             onPause={handlePause} 
             onReset={handleReset} 
             />
-             
-         </div>
+        </div>
 
-        
+
     </div>
         
   );
