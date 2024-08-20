@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/pomobud/static/css/main.1dd4cf9c.css",
-    "main.js": "/pomobud/static/js/main.f772a286.js",
+    "main.css": "/pomobud/static/css/main.40d38b90.css",
+    "main.js": "/pomobud/static/js/main.aa2e96a8.js",
     "static/media/ding.mp3": "/pomobud/static/media/ding.407846db137a95bc10b4.mp3",
     "index.html": "/pomobud/index.html",
-    "main.1dd4cf9c.css.map": "/pomobud/static/css/main.1dd4cf9c.css.map",
-    "main.f772a286.js.map": "/pomobud/static/js/main.f772a286.js.map"
+    "main.40d38b90.css.map": "/pomobud/static/css/main.40d38b90.css.map",
+    "main.aa2e96a8.js.map": "/pomobud/static/js/main.aa2e96a8.js.map"
   },
   "entrypoints": [
-    "static/css/main.1dd4cf9c.css",
-    "static/js/main.f772a286.js"
+    "static/css/main.40d38b90.css",
+    "static/js/main.aa2e96a8.js"
   ]
 }
