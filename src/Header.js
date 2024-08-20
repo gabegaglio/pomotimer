@@ -24,15 +24,25 @@ const Header = ({
 
   const [menuOpen, setMenuOpen] = useState(false);
 
+ 
   const toggleMenu = () => {
+    // Toggle the state of the menu open and close
     const newMenuOpen = !menuOpen;
     setMenuOpen(newMenuOpen);
 
+    // Query the DOM for the necessary elements
     const contentWrap = document.querySelector('.contentContainer');
-
-    if (contentWrap) {
-      contentWrap.style.filter = newMenuOpen ? 'blur(5px)' : 'none';
+    const taskWrap = document.querySelector('.taskContainer');
+    const desc = document.querySelector('.desc');
+    
+    // Apply the blur effect if the menu is open
+    if (contentWrap && taskWrap && desc) {
+      const blurEffect = newMenuOpen ? 'blur(5px)' : 'none';
+      contentWrap.style.filter = blurEffect;
+      desc.style.filter = blurEffect;
+      taskWrap.style.filter = blurEffect;
     }
+
   };
 
   const handlePomoChange = (e) => {

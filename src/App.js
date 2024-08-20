@@ -4,12 +4,13 @@ import Pomobtn from './Pomobtn.js';
 import Timer from './Timer.js';
 import Start from './Start.js';
 import Description from './Description.js';
+import TaskManager from './TaskManager.js';
 import ding from './assets/ding.mp3';
+import { BrowserRouter as Router } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 
 function App() {
   
-
   //CODE FOR INPUTS/SETTINGS--------------------------------------------------
   //gets values based on local storage or defaults
   const [pomoInput, setPomoInput] = useState(
@@ -125,9 +126,8 @@ function App() {
     setStartTimer(false);
   };
 
-
-
   return (
+    <Router>
     <div className="App">
       <div className="contentWrap">
         <Header
@@ -163,9 +163,12 @@ function App() {
           />
         </div>
       </div>
+      <TaskManager />
       <Description />
     </div>
+    </Router>
   );
 }
 
 export default App;
+

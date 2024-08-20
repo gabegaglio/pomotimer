@@ -41,9 +41,13 @@ code {
   z-index:2;
 }
 
+.error, .loading{
+  color:white;
+}
+
 .contentWrap{
   width:100vw;
-  height:100vh;
+  height:90vh;
 }
 
 .contentContainer{
@@ -105,7 +109,7 @@ code {
 .popMenu{
   position: fixed;
   width: 50vw;
-  height: 70vh;
+  height: auto;
   margin-bottom:100px;
   background: rgb(99, 14, 14);
   top:50%;
@@ -166,6 +170,7 @@ code {
   grid-template-columns: repeat(2,1fr);
   gap: 10px 10px;
   margin-inline:10px;
+  margin-bottom:20px;
 }
 
 .inputDiv{
@@ -280,7 +285,6 @@ background:rgba(255,255,255,0);
 
 
 
-
 .wrap{
   display:flex;
   flex-flow:column-reverse;
@@ -288,33 +292,6 @@ background:rgba(255,255,255,0);
   align-items: start;
 }
 
-.desc{
-  justify-self:start;
-  border-radius:10px;
-  color:white;
-  text-align: left;
-  font-size:1rem;
-  padding:10px;
-  margin:10px;
-  background:rgba(255, 255, 255, 0.2);
-  box-shadow: 0 4px 30px rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter:blur(4px);
-}
-
-.desc h1, .desc h2{
-  font-size:1.5rem;
-  white-space: nowrap;
-  text-align:Center; 
-  text-decoration: none;
-  color:white;
-  font-weight:normal;
-}
-
-.desc li{
-  font-size:1.2rem;
-  padding:5px;
-}
 
 
 /*clock container*/
@@ -348,7 +325,7 @@ background:rgba(255,255,255,0);
 .btn{
   color: white;
   background:rgba(255, 255, 255, 0.2);
-  border-radius:16px;
+  border-radius:10px;
   box-shadow: 0 4px 30px rgba(0,0,0,0.1);
  
 
@@ -366,7 +343,7 @@ background:rgba(255,255,255,0);
   padding-inline:10px;
 
   border:none;
-  border-radius:20px;
+  border-radius:10px;
 
   white-space: nowrap;
   font-size:1.6em;  
@@ -408,8 +385,190 @@ background:rgba(255,255,255,0);
   background-color: rgba(255, 255, 255, 0.14);
 }
 
-  
 
+/*task css*/
+.taskWrap{
+  width:50%;
+  height:auto;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.taskContainer{
+  width:100%;
+  height:100%;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius:10px;
+  flex-direction: column;
+}
+ 
+.taskHeader{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  font-size:2rem;
+  white-space: nowrap;
+  text-align:Center; 
+  text-decoration: none;
+  font-weight:normal;
+  color:white;
+  text-align:center;
+}
+
+.taskDisplay{
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height:auto;
+  color:white;
+  font-weight:normal;
+}
+
+.addTaskDiv{
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  width:100%;
+    border-top:white dotted 3px;
+}
+
+.addTaskBtn{
+  background-color: rgba(213, 213, 213, 0.2);
+  border-radius:10px;
+  padding:10px;
+  border:none;
+  cursor: pointer;
+  transition:ease .1s;
+  color:white;
+  font-size:1rem;
+  margin-block:10px;
+}
+
+.addTaskBtn:hover{
+  background-color: rgba(239, 239, 239, 0.4);
+}
+
+.createTask{
+  width: 100%;
+  height:auto; 
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  padding:10px;
+}
+
+.createTask form{
+  display:flex;
+  flex-direction:column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.taskNameInput,
+.taskDescInput{ 
+  width: 100%;
+  text-align:center;
+  font-size:1.5rem;
+  color:white;
+  background-color: rgba(255, 255, 255, 0);
+}
+
+.taskDescInput, .taskDisplay p, .taskDisplay h1, .desc h1{
+  white-space: pre-wrap; /* Maintains whitespace and line breaks */
+  word-wrap: break-word; /* Breaks long words and wraps text */
+  overflow: auto;        /* Adds scrollbars if needed */
+  resize: none;
+  outline:none;
+  border:none;
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+}
+
+
+.taskDisplayContainer{/*Found in TaskList css, container for each individual task*/
+  width:100%;
+}
+
+.taskDisplay{
+  border-bottom:white dotted 3px;
+  margin-block:5px;
+  padding:10px;
+}
+
+.taskDisplay h1, .taskDisplay p{
+  width:80%;
+  font-weight:normal;
+  padding:0px;
+  margin-block:5px;
+}
+
+.taskDisplay h1{
+  font-size:1.5rem;
+}
+
+.taskDisplay p{font: 1em;}
+
+.taskDisplay button{
+  border-radius: 10px;
+  background-color: rgba(213, 213, 213, 0.2);
+  color:white;
+  border:none;
+  padding:10px;
+  margin-block:10px;
+  cursor: pointer;
+  transition:ease .1s;
+}
+
+.taskDisplay button:hover{
+  background-color: rgba(239, 239, 239, 0.4);
+}
+
+::placeholder{
+  color:white;
+  font-style: italic;
+  font-size:1.5rem;
+  opacity: .7;
+}
+/*DESCRIPTION CSS*/
+
+.desc{
+  justify-self:start;
+  border-radius:10px;
+  color:white;
+  text-align: left;
+  font-size:1rem;
+  padding:10px;
+  margin:10px;
+  background:rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 30px rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter:blur(4px);
+  width: 50%;
+}
+
+/*desc css*/
+.desc h1, .desc h2{
+  font-size:1.5rem;
+  white-space: wrap;
+  text-align:Center; 
+  text-decoration: none;
+  color:white;
+  font-weight:normal;
+}
+
+.desc li{
+  font-size:1.2rem;
+  padding:5px;
+}
+
+/*MEDIA QUERIES*/
 
 @media (max-width: 768px){
 
@@ -443,6 +602,10 @@ background:rgba(255,255,255,0);
 
 @media (max-width: 480px) {
   
+.taskWrap,.desc{
+  width:80%;
+}
+
   .popMenu{
     width:85%;
   }
@@ -490,7 +653,7 @@ background:rgba(255,255,255,0);
   .headerContainer{justify-content: flex-end;}
   .clock,.timer{font-size:3rem;}
   .buttonContainer button, .startContainer button{
-    font-size:1.2em;
+    font-size:.8em;
     height:60px;
   }
 }
@@ -500,7 +663,7 @@ background:rgba(255,255,255,0);
   .clock,.timer{font-size:2rem;}
   .clockContainer{margin-top:20px;}
   .buttonContainer button, .startContainer button {
-    font-size: 1rem; /* Slightly smaller font size on small screens */
+    font-size: .8rem; /* Slightly smaller font size on small screens */
     height: 40px;
   }
 }
