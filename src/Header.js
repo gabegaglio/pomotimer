@@ -30,6 +30,7 @@ const Header = ({
     const newMenuOpen = !menuOpen;
     setMenuOpen(newMenuOpen);
 
+    
     // Query the DOM for the necessary elements
     const contentWrap = document.querySelector('.contentContainer');
     const taskWrap = document.querySelector('.taskContainer');
@@ -88,15 +89,11 @@ const Header = ({
 
   return (
     <div className="headerContainer">
-      <header className="webName">
-        <h1>pomobud</h1>
-      </header>
-
       <div className="menuContainer" onClick={toggleMenu}>
         <Menu />
       </div>
       {menuOpen /* logical &&, if menuOpen is true opens up the menu */ && (
-        <div className="popMenu" style={{ backgroundColor: color }}>
+        <div className="popMenu"style={{ backgroundColor: color }}>
           <div className="popContent">
             <div className="closeButton" onClick={toggleMenu}>
               &times;

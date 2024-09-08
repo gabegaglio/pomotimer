@@ -68,7 +68,9 @@ code {
   display:flex;
   justify-content: flex-end;
   align-items: center;
-  z-index:1000;
+  z-index: 5000;
+  position:sticky;
+  margin-top:10px;
 }
 
 .webName{
@@ -87,7 +89,7 @@ code {
   height:2rem;
   cursor: pointer;
   transition: .5s ease;
-  z-index: 1001;
+  z-index: 3000;
 }
 
 .burger{
@@ -106,24 +108,26 @@ code {
   -webkit-backdrop-filter:blur(4px);
 }
 
-.popMenu{
+.popMenu {
   position: fixed;
-  width: 50vw;
+  width: fit-content;
   height: auto;
-  margin-bottom:100px;
+  margin-bottom: 100px;
   background: rgb(99, 14, 14);
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Initially off-screen */
   z-index: 1000;
-  border-radius:10px;
-  filter:none;
+  border-radius: 10px;
+  filter: none;
 }
+
+
 
 .popContent{
   border-radius:10px;
   position:relative;
-  width:100%;
+  width:fit-content;
   height:100%;
   text-align: center;
   box-shadow: 0 4px 30px rgba(0,0,0,0.4);
@@ -224,7 +228,7 @@ input::-webkit-inner-spin-button {
 margin:0px;
 padding: 0px;
 width:40%;
-height:100%;
+height:40%;
 cursor: pointer;
 overflow:hidden;
 background: none;
@@ -292,8 +296,6 @@ background:rgba(255,255,255,0);
   align-items: start;
 }
 
-
-
 /*clock container*/
 .clockContainer{
   display:flex;
@@ -305,7 +307,7 @@ background:rgba(255,255,255,0);
   background:rgba(255, 255, 255, 0.2);
   box-shadow: 0 4px 30px rgba(0,0,0,0.1);
  
-  margin-bottom:10vh;
+  margin-block:5vh;
   white-space: nowrap;
   z-index:0;
 }
@@ -474,6 +476,7 @@ background:rgba(255,255,255,0);
 
 .taskNameInput,
 .taskDescInput{ 
+  padding-top:10px;
   width: 100%;
   text-align:center;
   font-size:1.5rem;
@@ -496,6 +499,7 @@ background:rgba(255,255,255,0);
   width:100%;
 }
 
+
 .taskDisplay{
   border-bottom:white dotted 3px;
   margin-block:5px;
@@ -516,18 +520,28 @@ background:rgba(255,255,255,0);
 .taskDisplay p{font: 1em;}
 
 .taskDisplay button{
+  margin-left:auto;
   border-radius: 10px;
   background-color: rgba(213, 213, 213, 0.2);
   color:white;
   border:none;
-  padding:10px;
-  margin-block:10px;
   cursor: pointer;
   transition:ease .1s;
+ 
 }
 
 .taskDisplay button:hover{
   background-color: rgba(239, 239, 239, 0.4);
+}
+
+#trashcan{
+  width:15px;
+  height:15px;
+  margin-left:auto;
+  cursor:pointer;
+  margin-block:0px;
+  padding:0px;
+  background-color: none;
 }
 
 ::placeholder{
@@ -606,6 +620,10 @@ background:rgba(255,255,255,0);
   width:80%;
 }
 
+.contentContainer{
+  height:70%;
+}
+
   .popMenu{
     width:85%;
   }
@@ -624,12 +642,6 @@ background:rgba(255,255,255,0);
     font-size: 3rem;
   }
 
-  .headerContainer{
-    justify-content: space-between;
-  }
-  .webName{
-    margin-left:5px;
-  }
 }
 
 @media (max-width: 400px) {
@@ -649,7 +661,7 @@ background:rgba(255,255,255,0);
 
 
 @media (max-height:600px){
-  .webName{display:none;}
+  
   .headerContainer{justify-content: flex-end;}
   .clock,.timer{font-size:3rem;}
   .buttonContainer button, .startContainer button{
@@ -659,7 +671,6 @@ background:rgba(255,255,255,0);
 }
 
 @media(max-height:400px){
-  .webName{display:none;}
   .clock,.timer{font-size:2rem;}
   .clockContainer{margin-top:20px;}
   .buttonContainer button, .startContainer button {

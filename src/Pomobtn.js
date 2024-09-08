@@ -1,5 +1,4 @@
 import React from 'react';
-import { useState } from 'react';
 const Pomobtn = ({pomoTime,longTime,shortTime, onClick }) => {
    
 //creates the list of buttons
