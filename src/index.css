@@ -154,39 +154,6 @@ code {
     monospace;
 }
 
-.error, .loading{
-  color:white;
-}
-
-
-#option{
-  width:15px;
-  height:15px;
-  margin-left:auto;
-  cursor:pointer;
-  margin-block:0px;
-  padding:0px;
-  background-color: none;
-  color:white;
-}
-
-#garb{
-  width:15px;
-  height:15px;
-  margin-left:auto;
-  cursor:pointer;
-  margin-block:0px;
-  padding:0px;
-  background-color: none;
-  color:white;
-}
-
-::placeholder{
-  color:white;
-  font-style:normal !important;
-  opacity: 1;
-}
-
 
 
 
