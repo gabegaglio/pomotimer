@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
-import Menu from './Menu';
+import { useNavigate } from 'react-router-dom';
+import Settings from './Settings.js';
+import useHeaderChanges from './hooks/useHeaderChanges.js';
 
 const Header = ({
   pomoInput,
@@ -12,161 +14,125 @@ const Header = ({
   setColor,
   backgroundPicture,
   setBackgroundPicture,
+  isLoggedIn
 }) => {
-  useEffect(() => {
-    const body = document.querySelector('body');
-    const popContent = document.querySelector('.popContent');
-    body.style.backgroundColor = color || '#666EE6';
-    if (body && popContent) {
-      popContent.style.backgroundColor = color || '666EE6';
-    }
-  }, [color]);
+  const {
+    menuOpen,
+    toggleMenu,
+    handleTimeChange,
+    handleColorChange,
+    handleReset,
+    handleBackgroundChange,
+  } = useHeaderChanges(
+    color,
+    setColor,
+    setPomoInput,
+    setLongInput,
+    setShortInput,
+    setBackgroundPicture
+  );
 
-  const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
- 
-  const toggleMenu = () => {
-    // Toggle the state of the menu open and close
-    const newMenuOpen = !menuOpen;
-    setMenuOpen(newMenuOpen);
+  const inputList = [
+    { label: 'Pomodoro', value: pomoInput, type: 'pomo' },
+    { label: 'Short Break', value: shortInput, type: 'short' },
+    { label: 'Long Break', value: longInput, type: 'long' },
+  ];
 
-    
-    // Query the DOM for the necessary elements
-    const contentWrap = document.querySelector('.contentContainer');
-    const taskWrap = document.querySelector('.taskContainer');
-    const desc = document.querySelector('.desc');
-    
-    // Apply the blur effect if the menu is open
-    if (contentWrap && taskWrap && desc) {
-      const blurEffect = newMenuOpen ? 'blur(5px)' : 'none';
-      contentWrap.style.filter = blurEffect;
-      desc.style.filter = blurEffect;
-      taskWrap.style.filter = blurEffect;
-    }
-
-  };
-
-  const handlePomoChange = (e) => {
-    setPomoInput(parseInt(e.target.value || 25));
-    console.log('pomo input change:', pomoInput);
-  };
-
-  const handleShortChange = (e) => {
-    setShortInput(parseInt(e.target.value || 5));
-    console.log('short input change:', shortInput);
-  };
-
-  const handleLongChange = (e) => {
-    setLongInput(parseInt(e.target.value || 15));
-    console.log('long input change:', longInput);
-  };
-
-  const handleColorChange = (e) => {
-    setColor(e.target.value);
-    console.log('color change:', color);
-  };
-
-  const handleReset = () => {
-    setPomoInput(25);
-    setLongInput(15);
-    setShortInput(5);
-    setBackgroundPicture(null);
-  };
-
-  const handleBackgroundChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const backgroundURL = reader.result;
-        setBackgroundPicture(backgroundURL);
-        localStorage.setItem('backgroundPicture', backgroundURL);
-        console.log('set background picture');
-      };
-      reader.readAsDataURL(file);
-    }
-  };
 
   return (
-    <div className="headerContainer">
-      <div className="menuContainer" onClick={toggleMenu}>
-        <Menu />
+    <div className="p-2  width-100 flex justify-end">
+      <div className="flex flex-row justify-end items-center z-5000">
+        <button
+          className="logBtn mx-1 text-white bg-white bg-opacity-20 hover:bg-opacity-30 rounded-lg transition px-2 py-1 duration-100 ease-in-out"
+          onClick={isLoggedIn ? undefined : () => navigate('/login')}
+        >
+          {isLoggedIn ? 'Logout' : 'Login'}
+        </button>
+        <Settings onClick={toggleMenu} />
       </div>
-      {menuOpen /* logical &&, if menuOpen is true opens up the menu */ && (
-        <div className="popMenu"style={{ backgroundColor: color }}>
-          <div className="popContent">
-            <div className="closeButton" onClick={toggleMenu}>
+
+      {menuOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div
+            className="text-white rounded-lg shadow-lg p-6 w-fit h-auto flex flex-col items-center relative"
+            style={{ backgroundColor: color }}
+          >
+            {/* Close Button - Now inside popMenu */}
+            <button
+              className="absolute top-4 right-4 text-4xl font-bold text-gray-300 hover:text-white transition"
+              onClick={toggleMenu}
+            >
               &times;
-            </div>
-            <p className="popHeader">Settings</p>
-            <div className="wrap">
-              <div className="inputContainer">
-                <div className="inputDiv">
-                  <label htmlFor="pomoInput">Pomodoro</label>
-                  <input
-                    className="pomoInput"
-                    type="number"
-                    placeholder="25"
-                    min="1"
-                    max="60"
-                    value={pomoInput}
-                    onChange={handlePomoChange}
-                  />
-                </div>
+            </button>
 
-                <div className="inputDiv">
-                  <label htmlFor="shortInput">Short Break</label>
-                  <input
-                    className="shortInput"
-                    type="number"
-                    placeholder="5"
-                    min="1"
-                    max="60"
-                    value={shortInput}
-                    onChange={handleShortChange}
-                  />
-                </div>
+            {/* Settings Header */}
+            <p className="w-fit text-2xl font-semibold rounded-lg py-2 px-6 shadow-md text-center  bg-opacity-20">
+              Settings
+            </p>
 
-                <div className="inputDiv">
-                  <label htmlFor="longInput">Long Break</label>
-                  <input
-                    className="longInput"
-                    type="number"
-                    placeholder="15"
-                    min="1"
-                    max="60"
-                    value={longInput}
-                    onChange={handleLongChange}
-                  />
-                </div>
+            {/* Inputs Container */}
+            <div
+              className="flex flex-col items-center w-full mt-4 space-y-6"
+              style={{ backgroundColor: color }}
+            >
+              {/* Time Inputs in a Grid */}
 
-                <div className="inputDiv">
-                  <label htmlFor="colorInput">Background Color</label>
-                  <input
-                    className="colorInput"
-                    type="color"
-                    value={color}
-                    onChange={handleColorChange}
-                  />
-                </div>
-
-                <div className="inputDiv">
-                  <label htmlFor="pictureInput" className="fileInputLabel">
-                    Choose Background
+              <div className="grid grid-rows-3 sm:grid-cols-3 sm:grid-rows-1 w-full h-auto gap-4">
+                {inputList.map((item, index) => (
+                  <div key={index} className="flex flex-col items-center">
+                    <label className="text-md overflow-wrap rounded-t-lg font-medium bg-white bg-opacity-20 py-2 px-4 shadow-md text-center w-full">
+                      {item.label}
+                    </label>
                     <input
-                      className="fileInput"
-                      type="file"
-                      onChange={handleBackgroundChange}
+                      type="number"
+                      min="1"
+                      max="60"
+                      value={item.value}
+                      onChange={(e) => handleTimeChange(e, item.type)}
+                      className="w-full p-2 text-md text-center rounded-b-lg bg-white bg-opacity-10 border-none outline-none"
                     />
-                  </label>
-                </div>
-
-                <br></br>
-
-                <button className="reset" onClick={handleReset}>
-                  Reset
-                </button>
+                  </div>
+                ))}
               </div>
+              {/* Background Upload */}
+              <div className="flex flex-col items-center w-full">
+                <label className="block text-lg font-medium bg-white bg-opacity-20 rounded-md py-2 px-4 shadow-md text-center w-full cursor-pointer hover:bg-opacity-30">
+                  Choose Background Picture
+                  <input
+                    id="pictureInput"
+                    type="file"
+                    onChange={handleBackgroundChange}
+                    className="hidden"
+                  />
+                </label>
+              </div>
+
+              {/* Color Picker */}
+              <div className="flex flex-col items-center w-full">
+                <label
+                  htmlFor="colorInput"
+                  className="block text-lg font-medium bg-white bg-opacity-20 rounded-md py-2 px-4 shadow-md text-center w-full cursor-pointer hover:bg-opacity-30"
+                >
+                  Background Color
+                </label>
+                <input
+                  id="colorInput"
+                  type="color"
+                  value={color}
+                  onChange={handleColorChange}
+                  className="hidden"
+                />
+              </div>
+
+              {/* Reset Button */}
+              <button
+                className="block text-lg font-medium bg-white bg-opacity-20 rounded-md py-2 px-4 shadow-md text-center w-full cursor-pointer hover:bg-opacity-30"
+                onClick={handleReset}
+              >
+                Reset
+              </button>
             </div>
           </div>
         </div>

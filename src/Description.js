@@ -1,7 +1,7 @@
 const Description = () => {
   return (
-    <div className="desc">
-      <h1>How To Use Pomodoro</h1>
+    <div className="desc text-white w-3/4 md:w-1/2 flex flex-col items-left justify-center">
+      <h1 className="align-center">How To Use Pomodoro</h1>
       <ol>
         <li>Select a task you want to work on.</li>
         <li>Start the timer for 25 minutes or of your choosing.</li>
@@ -15,7 +15,10 @@ const Description = () => {
         </li>
       </ol>
       <h2>
-        Made by <a target="_blank" href="https://github.com/gabegaglio">gabegaglio</a>
+        Made by{' '}
+        <a target="_blank" href="https://github.com/gabegaglio">
+          gabegaglio
+        </a>
       </h2>
     </div>
   );

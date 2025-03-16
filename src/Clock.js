@@ -22,8 +22,8 @@ const Clock = () => {
   //value can be put in there so on change of it, it runs again
 
   return (
-    <div className="clockContainer">
-      <header className="clock">{time}</header>
+    <div className="w-full flex justify-center items-center bg-white bg-opacity-20">
+      <header className="text-white text-7xl md:text-8xl my-4">{time}</header>
     </div>
   );
 };

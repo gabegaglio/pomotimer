@@ -1,18 +1,86 @@
-import trashcan from './assets/trashcan.svg';
+import garb from './assets/garb.svg';
+import pencil from './assets/pencil.svg';
+import { useState } from 'react';
 // TaskList takes tasks and displays them
-const TaskList = ({tasks, deleteTask}) => {
+const TaskList = ({ tasks, deleteTask, setTasks}) => {
 
-    //BUGS:all tasks are deleted when clicked
+  const [editTaskID, setEditTaskID] = useState(null);
+  const [editTaskName, setEditTaskName] = useState("");
+  const [editTaskDesc, setEditTaskDesc] = useState("");
 
+  // sets state for editTaskID, editTaskName, and editTaskDesc
+  const handleEditTask = (task) => { // called on click of edit button, passes in entire task
+    setEditTaskID(task.id); // sets each property as needed
+    setEditTaskName(task.name);
+    setEditTaskDesc(task.desc || "");
+  };
+
+  const updateTask = (id, updatedTask) => { // on click of save button, id of task and updated task object passed in
+    setTasks((prevTasks) => // setTasks taken from TaskManager, prevTasks automatically passed in
+      prevTasks.map((task) => // loops through each task until id's are equal
+        task.id === id ? { ...task, ...updatedTask } : task // replace the task with the updated task, if not keep task
+      )
+    );
+  };
+
+  const handleSaveTask = (id) => {
+    updateTask(id, { name: editTaskName, desc: editTaskDesc }); // calls updateTask function
+    setEditTaskID(null);
+    // saves the edited task by updating the task's name and description,
+    // then resets the editTaskID to null to exit edit mode.
+  };
     return (
-      <div className="taskDisplayContainer">
-        {tasks.map((task) => (
-          <div className="taskDisplay" key={task.id}>
-            <button onClick={() => deleteTask(task.id)}>
-              <img id="trashcan" src={trashcan} alt="delete task" />
-            </button>
-            <h1>{task.name}</h1>
-            {task.desc && <p>{task.desc}</p>}
+      <div className="taskDisplayContainer w-full space-y-4 max-h-[400px] overflow-y-auto">
+        {tasks.map((task, index) => (
+          <div
+            className="taskDisplay relative py-2 flex flex-col items-center justify-center w-full font-normal border-b border-white last:border-none"
+            key={task.id}
+          >
+            <div className="flex justify-end w-full space-x-2 px-4">
+              <img
+                className="w-6 h-6 rounded-lg hover:scale-110 transition duration-100 ease-in-out cursor-pointer"
+                onClick={() => handleEditTask(task)}
+                src={pencil}
+                alt="edit task"
+              />
+              <img
+                className="w-6 h-6 rounded-lg hover:scale-110 transition duration-100 ease-in-out cursor-pointer"
+                onClick={() => deleteTask(task.id)}
+                src={garb}
+                alt="delete task"
+              />
+            </div>
+            {editTaskID === task.id ? (
+              <>
+                <input
+                  className="whitespace-normal break-words w-full text-white text-3xl sm:text-2xl font-normal py-2 px-4 text-left bg-transparent border-none focus:ring-0 focus:outline-none"
+                  type="text"
+                  value={editTaskName}
+                  onChange={(e) => setEditTaskName(e.target.value)}
+                />
+                <textarea
+                  className="placeholder:text-white whitespace-normal break-words w-full text-white sm:text-lg font-normal py-2 px-4 text-left bg-transparent border-none focus:ring-0 focus:outline-none"
+                  value={editTaskDesc}
+                  placeholder="Add a note!"
+                  onChange={(e) => setEditTaskDesc(e.target.value)}
+                />
+                <button 
+                className="w-fit text-white bg-white bg-opacity-20 mt-2 p-2 text-lg text-center rounded-lg focus:outline-none hover:scale-105 transition duration-100 ease-in-out"
+                  onClick={() => handleSaveTask(task.id)}> Save
+                </button>
+              </>
+            ) : (
+              <>
+                <h1 className="whitespace-normal break-words w-full text-white text-2xl sm:text-lg md:text-xl font-normal py-2 px-4 text-left">
+                  {task.name}
+                </h1>
+                {task.desc && (
+                  <p className="whitespace-normal break-words w-full text-white text-base sm:text-sm md:text-md font-normal py-2 px-4 text-left">
+                    {task.desc}
+                  </p>
+                )}
+              </>
+            )}
           </div>
         ))}
       </div>

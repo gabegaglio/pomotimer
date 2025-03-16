@@ -1,0 +1,563 @@
+  
+.App {
+  margin:0;
+  text-align: center;
+  display:flex;
+  flex-direction:column;
+  align-items: center;
+  justify-content: center;
+  background-repeat:no-repeat;
+  background-size:cover;
+  background-attachment:fixed;
+  z-index:2;
+}
+  
+  .contentWrap{
+    width:100vw;
+    height:90vh;
+  }
+
+  .contentContainer{
+    width:100%;
+    height: 80%;
+    display:flex;
+    flex-direction:column;
+    align-items: center;
+    justify-content: center;
+    z-index:3;
+    margin:0px;
+  }
+
+
+
+/* POPUP MENU CSS*/
+
+.popMenu { /* 1. FULL CONTAINER */
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  width: fit-content;
+  height: auto;
+  margin-bottom: 100px;
+  background: rgb(99, 14, 14);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Initially off-screen */
+  z-index: 1000;
+  border-radius: 10px;
+  filter: none;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+}
+
+.popContent{  /* 2. CONTENT CONTAINER */
+  border-radius:10px;
+  position:relative;
+  width:fit-content;
+  padding:30px;
+  height:100%;
+  text-align: center;
+  overflow-y:auto;
+}
+
+.popSettingsHeader{ /* SETTINGS HEADER */ 
+  margin-bottom:10px;
+  width:100%;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size:2rem;
+  padding:10px;
+
+  color:white;
+  background:rgba(255,255,255,0.2);
+  box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter:blur(4px);
+}
+
+.closeButton{
+  color:white;
+  margin:0;
+  top:.1px;
+  display:flex;
+  justify-content: flex-end;
+  position: sticky;
+  padding-right:15px;
+  font-size:3rem;
+  cursor: pointer;
+  z-index:1;
+  float:right;
+}
+
+.inputWrap{ /* 3. INPUT WRAPPER */
+  display:flex;
+  flex-flow:column;
+  justify-content: center;
+  align-items: start;
+}
+
+.inputContainer{ /* 4. INPUT CONTAINER - 2 COLUMNS */
+  width:100%;
+  height:auto;
+  display:grid;
+  grid-template-columns: repeat(3,1fr);
+  grid-template-rows: repeat(2,1fr);
+  gap: 10px 10px;
+  margin-bottom:20px;
+}
+
+.inputDiv{ /* 5. INPUT DIVS */
+  margin-block:3vh;
+  display:contents;
+}
+
+
+label{ 
+  grid-row: 1;
+  text-align: center;
+  place-self: center ;
+  color:white;
+  font-size:1.5rem;
+  width:100%;
+  background:rgba(255,255,255,0.2);
+  box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter:blur(4px);
+  border-radius:10px;
+  padding:10px;
+}
+
+.timeInput{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  color:white;
+  text-align: center;
+  align-self:center;
+  width:100%;
+  margin:0;
+  padding:5px;
+  font-size:1.4rem;
+  border:none;
+  border-radius:10px;
+  outline:none;
+  appearance: none;
+  -webkit-appearence:none;
+  -moz-appearence: none;
+  background-color: rgba(255, 255, 255, 0.166);
+}
+
+.timeInput::-webkit-outer-spin-button,
+.timeInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.colorInput{
+margin:0px;
+padding: 0px;
+width:100%;
+cursor: pointer;
+overflow:hidden;
+background: none;
+margin:auto;
+outline:1px solid black;
+border-radius:0px;
+}
+
+.fileInput {
+  position: absolute;
+  top: 0;
+  left:0;
+  opacity: 0;
+  cursor: pointer;
+  border-radius:10px;
+  width:50%;
+  height:100%;
+}
+
+.inputLabel {
+  display: inline-block;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius:10px;
+  color: white;
+  cursor: pointer;
+  text-align: center;
+  transition: ease 0.1s;
+  position:relative;
+}
+
+#colorLabel{
+  margin-top:10px;
+}
+
+.inputLabel:hover, .fileInputLabel:hover {
+  background-color: rgb(255, 255, 255, .0);
+}
+
+#pictureInput, #colorInput{
+  display:none;
+}
+
+
+.reset{
+  text-align: center;
+  place-self: center ;
+  margin-top:10px;
+  color:white;
+  font-size:1.5rem;
+  width:100%;
+  background:rgba(255,255,255,0.2);
+  box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter:blur(4px);
+  border-radius:10px;
+  padding:10px;
+  border:none;
+  cursor: pointer;
+  transition:ease .1s;
+}
+
+.reset:hover{
+background:rgba(255,255,255,0);
+}
+
+/* HEADER CONTAINER */
+.headerContainer{
+  width:100%;
+  display:flex;
+  justify-content: flex-end;
+  align-items: center;
+  z-index: 5000;
+  margin-top:10px;
+}
+
+.webName{
+  color:white;
+  font-size:.6rem;
+}
+
+.menuDiv{
+  margin-inline:10px;
+  height:100%;
+  display:grid;
+  place-items:center;
+  flex-flow:column nowrap;
+  z-index:10;
+  width:2rem;
+  height:2rem;
+  cursor: pointer;
+  transition: .5s ease;
+  z-index: 3000;
+}
+
+.logBtn{
+  color:white;
+  background:rgba(255, 255, 255, 0.2);
+  border-radius:10px;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter:blur(4px);
+  padding:10px;
+  margin-inline:10px;
+  cursor: pointer;
+  transition: ease 0.1s;
+}
+
+.logBtn:hover{
+  background:rgba(255, 255, 255, 0.4);
+  box-shadow: 0 4px 30px rgba(0,0,0,0.2);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter:blur(4px);
+}
+
+/*clock container*/
+.clockContainer{
+  display:flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items:center;
+  width:100%;
+  text-align:center;
+  background:rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+ 
+  margin-block:5vh;
+  white-space: nowrap;
+  z-index:0;
+}
+
+/*buttons container*/
+.buttonContainer, .startContainer{
+  display: grid;
+  place-items:center;
+  grid-template-columns: repeat(3,1fr);
+  width: 90%;
+  gap: 10px; /* Add some gap between buttons */
+}
+
+.startContainer{
+  width:70%;
+}
+
+/* button container css */
+
+.buttonContainer, .startContainer{
+  display: grid;
+  place-items:center;
+  grid-template-columns: repeat(3,1fr);
+  width: 90%;
+  gap: 10px; /* Add some gap between buttons */
+}
+
+.startContainer{
+  width:70%;
+}
+
+/*btn css*/
+.btn{
+  color: white;
+  background:rgba(255, 255, 255, 0.2);
+  border-radius:10px;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+  max-width:none;
+  min-width:0;
+  height:80px;
+  margin:10px;
+  padding-inline:10px;
+  border:none;
+  border-radius:10px;
+
+  white-space: nowrap;
+  font-size:1.6em;  
+  cursor: pointer;
+  transition:.2s ease;
+}
+
+.btn:hover{
+  transform:scale(1.1);
+  background-color: #ffffff00;
+}
+
+.btn:not(.startBtn,.resetBtn):focus{
+  transform:scale(1.1);
+  background:rgba(255,255,255,0.4);
+}
+
+/*  TIMER SECTION CSS */
+.timerContainer{
+  width:100%;
+  height:auto;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  margin-block:5vh;
+}
+
+.timer, .clock{
+  color:white;
+  margin-bottom:10px;
+  font-size:5rem;
+  border-radius:20px;
+  padding-inline:10px;
+  width:fit-content;
+}
+
+.timer{
+  background-color: rgba(255, 255, 255, 0.14);
+}
+
+/** TASK SECTION CSS */
+.taskDisplayContainer{/*Found in TaskList css, container for each individual task*/
+  width:100%;
+}
+
+.taskDisplay{
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height:auto;
+  color:white;
+  font-weight:normal;
+}
+
+.taskDisplay{
+  border-bottom:white dotted 3px;
+  margin-block:5px;
+  padding:10px;
+}
+
+.taskDisplay h1, .taskDisplay p{
+  width:80%;
+  font-weight:normal;
+  padding:0px;
+  margin-block:5px;
+}
+
+.taskDisplay h1{
+  font-size:1.5rem;
+}
+
+.taskDisplay p{font: 1em;}
+
+.taskDisplay button{
+  margin-left:auto;
+  border-radius: 10px;
+  background-color: rgba(213, 213, 213, 0.2);
+  color:white;
+  border:none;
+  cursor: pointer;
+  transition:ease .1s;
+}
+
+.taskDisplay button:hover{
+  background-color: rgba(239, 239, 239, 0.4);
+}
+
+.taskWrap{
+  width:50%;
+  height:auto;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.taskContainer{
+  width:100%;
+  height:100%;
+  display:flex;
+  flex-direction: column;
+  margin-block:20px;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius:10px;
+}
+
+.createTask{
+  width: 100%;
+  height:auto; 
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  padding:10px;
+}
+
+.createTask form{
+  display:flex;
+  flex-direction:column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+
+.taskNameInput,
+.taskDescInput{ 
+  padding-top:10px;
+  width: 100%;
+  text-align:center;
+  font-size:1.5rem;
+  color:white;
+  background-color: rgba(255, 255, 255, 0);
+}
+
+.taskNameInput:focus, .taskDescInput:focus{
+  background-color: none;
+}
+
+.taskDescInput, .taskDisplay p, .taskDisplay h1, .desc h1{
+  white-space: pre-wrap; /* Maintains whitespace and line breaks */
+  word-wrap: break-word; /* Breaks long words and wraps text */
+  overflow: auto;        /* Adds scrollbars if needed */
+  resize: none;
+  outline:none;
+  border:none;
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+}
+
+.addTaskDiv{
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  width:100%;
+  border-top:solid white 3px;
+}
+
+.addTaskBtn{
+  background-color: rgba(213, 213, 213, 0.2);
+  border-radius:10px;
+  padding:10px;
+  border:none;
+  cursor: pointer;
+  transition:ease .1s;
+  color:white;
+  font-size:1rem;
+  margin-block:10px;
+}
+
+.addTaskBtn:hover{
+  background-color: rgba(239, 239, 239, 0.4);
+}
+
+.taskHeader{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  font-size:2rem;
+  white-space: nowrap;
+  text-align:Center; 
+  text-decoration: none;
+  font-weight:normal;
+  color:white;
+  text-align:center;
+}
+
+.desc{
+  justify-self:start;
+  border-radius:10px;
+  color:white;
+  text-align: left;
+  font-size:1rem;
+  padding:10px;
+  margin:10px;
+  background:rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 30px rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter:blur(4px);
+  width: 50%;
+}
+
+
+
+.desc h1, .desc h2{
+  font-size:1.5rem;
+  white-space: wrap;
+  text-align:Center; 
+  text-decoration: none;
+  color:white;
+  font-weight:normal;
+}
+
+.desc h1, .desc h2{
+  font-size:1.5rem;
+  white-space: wrap;
+  text-align:Center; 
+  text-decoration: none;
+  color:white;
+  font-weight:normal;
+}
+
+.desc li{
+  font-size:1.2rem;
+  padding:5px;
+}
