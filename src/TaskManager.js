@@ -26,7 +26,7 @@ const TaskManager = () => {
 
     return (
       <div className="taskWrap w-3/4 md:w-1/2 flex flex-col items-center justify-center">
-        <div className="taskWrap w-3/4 md:w-1/2 flex flex-col items-center justify-center">
+        <div className="w-full h-auto flex flex-col items-center justify-center">
           {' '}
           <TaskList tasks={tasks} deleteTask={deleteTask} setTasks={setTasks} />
         </div>

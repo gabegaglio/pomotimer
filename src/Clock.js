@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
+
+
+
 const Clock = () => {
   const [time, setTime] = useState('');
   const updateClock = () => {
@@ -22,7 +25,7 @@ const Clock = () => {
   //value can be put in there so on change of it, it runs again
 
   return (
-    <div className="w-full flex justify-center items-center bg-white bg-opacity-20">
+    <div className="w-full mb-10 flex justify-center items-center bg-white bg-opacity-20">
       <header className="text-white text-7xl md:text-8xl my-4">{time}</header>
     </div>
   );

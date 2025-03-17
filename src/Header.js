@@ -32,6 +32,8 @@ const Header = ({
     setBackgroundPicture
   );
 
+
+  
   const navigate = useNavigate();
 
   const inputList = [
@@ -42,10 +44,10 @@ const Header = ({
 
 
   return (
-    <div className="p-2  width-100 flex justify-end">
+    <div className="p-2 md:p-5 width-100 flex justify-end ">
       <div className="flex flex-row justify-end items-center z-5000">
         <button
-          className="logBtn mx-1 text-white bg-white bg-opacity-20 hover:bg-opacity-30 rounded-lg transition px-2 py-1 duration-100 ease-in-out"
+          className="logBtn mx-4 text-white text-md md:text-xl  bg-white bg-opacity-20 hover:bg-opacity-30 hover:scale-105 rounded-lg transition px-2 py-1 duration-100 ease-in-out"
           onClick={isLoggedIn ? undefined : () => navigate('/login')}
         >
           {isLoggedIn ? 'Logout' : 'Login'}
@@ -54,7 +56,7 @@ const Header = ({
       </div>
 
       {menuOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+        <div className="fixed bg-opacity-50 inset-0 flex items-center justify-center z-50">
           <div
             className="text-white rounded-lg shadow-lg p-6 w-fit h-auto flex flex-col items-center relative"
             style={{ backgroundColor: color }}
@@ -122,7 +124,7 @@ const Header = ({
                   type="color"
                   value={color}
                   onChange={handleColorChange}
-                  className="hidden"
+                  className="cursor-pointer w-0 h-0 text-md text-center bg-black border-black outline-none"
                 />
               </div>
 

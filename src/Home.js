@@ -48,7 +48,6 @@ function Home() {
         />
         <div className="contentContainer w-full h-4/5 flex flex-col justify-center items-center">
           <Clock />
-          <Quotes />
           <Pomobtn
             pomoTime={`${pomoInput}:00`}
             longTime={`${longInput}:00`}

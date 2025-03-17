@@ -1,6 +1,19 @@
 import garb from './assets/garb.svg';
 import pencil from './assets/pencil.svg';
+import option from './assets/option.svg';
 import { useState } from 'react';
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from './components/ui/dropdown-menu';
+
+
+
 // TaskList takes tasks and displays them
 const TaskList = ({ tasks, deleteTask, setTasks}) => {
 
@@ -33,23 +46,29 @@ const TaskList = ({ tasks, deleteTask, setTasks}) => {
       <div className="taskDisplayContainer w-full space-y-4 max-h-[400px] overflow-y-auto">
         {tasks.map((task, index) => (
           <div
-            className="taskDisplay relative py-2 flex flex-col items-center justify-center w-full font-normal border-b border-white last:border-none"
+            className="taskDisplay relative w-full bg-white bg-opacity-20 rounded-lg py-2 flex flex-col items-center justify-right w-full font-normal"
             key={task.id}
           >
-            <div className="flex justify-end w-full space-x-2 px-4">
-              <img
-                className="w-6 h-6 rounded-lg hover:scale-110 transition duration-100 ease-in-out cursor-pointer"
-                onClick={() => handleEditTask(task)}
-                src={pencil}
-                alt="edit task"
-              />
-              <img
-                className="w-6 h-6 rounded-lg hover:scale-110 transition duration-100 ease-in-out cursor-pointer"
-                onClick={() => deleteTask(task.id)}
-                src={garb}
-                alt="delete task"
-              />
+            <div className="w-full flex items-right justify-end w-full px-4">
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <img
+                    src={option}
+                    alt="option"
+                    className="w-6 h-6 hover:scale-110 transition duration-100 ease-in-out"
+                  />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem onClick={() => handleEditTask(task)}>
+                    Edit
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => deleteTask(task.id)}>
+                    Delete
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
+
             {editTaskID === task.id ? (
               <>
                 <input
@@ -59,23 +78,27 @@ const TaskList = ({ tasks, deleteTask, setTasks}) => {
                   onChange={(e) => setEditTaskName(e.target.value)}
                 />
                 <textarea
-                  className="placeholder:text-white whitespace-normal break-words w-full text-white sm:text-lg font-normal py-2 px-4 text-left bg-transparent border-none focus:ring-0 focus:outline-none"
+                  className="placeholder:text-white whitespace-normal break-words w-full text-white sm:text-lg font-normal px-4 text-left bg-transparent border-none focus:ring-0 focus:outline-none h-auto min-h-[2.5rem] max-h-[8rem] overflow-y-auto resize-none"
+                  rows="1"
                   value={editTaskDesc}
                   placeholder="Add a note!"
                   onChange={(e) => setEditTaskDesc(e.target.value)}
                 />
-                <button 
-                className="w-fit text-white bg-white bg-opacity-20 mt-2 p-2 text-lg text-center rounded-lg focus:outline-none hover:scale-105 transition duration-100 ease-in-out"
-                  onClick={() => handleSaveTask(task.id)}> Save
+                <button
+                  className="w-fit text-white bg-white bg-opacity-20 mt-2 p-2 text-lg text-center rounded-lg focus:outline-none hover:scale-105 transition duration-100 ease-in-out"
+                  onClick={() => handleSaveTask(task.id)}
+                >
+                  {' '}
+                  Save
                 </button>
               </>
             ) : (
               <>
-                <h1 className="whitespace-normal break-words w-full text-white text-2xl sm:text-lg md:text-xl font-normal py-2 px-4 text-left">
+                <h1 className="whitespace-normal break-words w-full text-white text-lg md:text-2xl font-normal py-2 px-4 text-left">
                   {task.name}
                 </h1>
                 {task.desc && (
-                  <p className="whitespace-normal break-words w-full text-white text-base sm:text-sm md:text-md font-normal py-2 px-4 text-left">
+                  <p className="whitespace-normal break-words w-full text-white text-base md:text-lg font-normal py-2 px-4 text-left">
                     {task.desc}
                   </p>
                 )}
