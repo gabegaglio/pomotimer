@@ -1,11 +1,20 @@
 import CreateTask from './CreateTask';
 import TaskList from './TaskList';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import useUserData from './hooks/useUserData';
 
 const TaskManager = ({ isLoggedIn }) => {
-  const [tasks, setTasks] = useState([]);
-  const [isInitialized, setIsInitialized] = useState(false);
+  const [tasks, setTasks] = useState(() => {
+    // Initialize tasks from localStorage on component mount
+    try {
+      const savedTasks = localStorage.getItem('tasks');
+      return savedTasks ? JSON.parse(savedTasks) : [];
+    } catch (error) {
+      console.error('Error loading initial tasks from localStorage:', error);
+      return [];
+    }
+  });
+
   const {
     userData,
     updateTasks,
@@ -14,128 +23,53 @@ const TaskManager = ({ isLoggedIn }) => {
     isAuthReady,
   } = useUserData();
 
-  // Load initial tasks
+  // Load tasks from Firebase if logged in
   useEffect(() => {
-    if (!isAuthReady) {
-      console.log('Waiting for auth to be ready...');
-      return;
+    if (isLoggedIn && userData?.tasks) {
+      console.log('Loading tasks from Firebase:', userData.tasks);
+      setTasks(userData.tasks);
     }
+  }, [isLoggedIn, userData]);
 
-    console.log(
-      'Loading tasks. IsLoggedIn:',
-      isLoggedIn,
-      'User:',
-      user?.email,
-      'AuthReady:',
-      isAuthReady
-    );
-    console.log('UserData:', userData);
-
-    if (isLoggedIn && user && userData) {
-      // Load from Firestore
-      if (Array.isArray(userData.tasks)) {
-        console.log('Setting tasks from Firestore:', userData.tasks);
-        setTasks(userData.tasks);
-      } else {
-        console.log('No valid tasks found in Firestore, using empty array');
-        setTasks([]);
-      }
-    } else {
-      // Load from localStorage
+  // Save tasks to appropriate storage
+  useEffect(() => {
+    const saveTasks = async () => {
+      // Always save to localStorage regardless of login state
       try {
-        const localTasks = localStorage.getItem('tasks');
-        if (localTasks) {
-          const parsedTasks = JSON.parse(localTasks);
-          if (Array.isArray(parsedTasks)) {
-            console.log('Setting tasks from localStorage:', parsedTasks);
-            setTasks(parsedTasks);
-          } else {
-            console.log('Invalid tasks in localStorage, using empty array');
-            setTasks([]);
-          }
-        } else {
-          console.log('No tasks in localStorage, using empty array');
-          setTasks([]);
-        }
+        console.log('Saving tasks to localStorage:', tasks);
+        localStorage.setItem('tasks', JSON.stringify(tasks));
       } catch (error) {
-        console.error('Error loading tasks from localStorage:', error);
-        setTasks([]);
-      }
-    }
-    setIsInitialized(true);
-  }, [isLoggedIn, userData, user, isAuthReady]);
-
-  // Save tasks when they change
-  const saveTasksToStorage = useCallback(
-    async (tasksToSave) => {
-      if (!isInitialized || !isAuthReady) {
-        console.log('Not saving tasks - not yet initialized or auth not ready');
-        return;
+        console.error('Error saving tasks to localStorage:', error);
       }
 
-      if (!Array.isArray(tasksToSave)) {
-        console.error('Invalid tasks array:', tasksToSave);
-        return;
-      }
-
-      console.log(
-        'Saving tasks. IsLoggedIn:',
-        isLoggedIn,
-        'User:',
-        user?.email,
-        'Tasks:',
-        tasksToSave
-      );
-
-      if (isLoggedIn && user) {
-        // Save to Firestore
+      // Additionally save to Firebase if logged in
+      if (isLoggedIn) {
         try {
-          await updateTasks(tasksToSave);
+          console.log('Saving tasks to Firebase:', tasks);
+          await updateTasks(tasks);
         } catch (error) {
-          console.error('Error saving tasks to Firestore:', error);
-        }
-      } else {
-        // Save to localStorage
-        try {
-          localStorage.setItem('tasks', JSON.stringify(tasksToSave));
-        } catch (error) {
-          console.error('Error saving tasks to localStorage:', error);
+          console.error('Error saving tasks to Firebase:', error);
         }
       }
-    },
-    [isLoggedIn, user, isAuthReady, isInitialized, updateTasks]
-  );
+    };
 
-  useEffect(() => {
-    saveTasksToStorage(tasks);
-  }, [tasks, saveTasksToStorage]);
+    saveTasks();
+  }, [tasks, isLoggedIn, updateTasks]);
 
   const addTask = (task) => {
-    console.log('Adding task:', task);
     if (!task || !task.id) {
       task = { ...task, id: Date.now().toString() };
     }
-    setTasks((currentTasks) => {
-      const newTasks = Array.isArray(currentTasks)
-        ? [...currentTasks, task]
-        : [task];
-      console.log('New tasks array after addition:', newTasks);
-      return newTasks;
-    });
+    console.log('Adding task:', task);
+    setTasks((currentTasks) => [...currentTasks, task]);
   };
 
   const deleteTask = (id) => {
     console.log('Deleting task:', id);
-    setTasks((currentTasks) => {
-      const updatedTasks = Array.isArray(currentTasks)
-        ? currentTasks.filter((task) => task.id !== id)
-        : [];
-      console.log('New tasks array after deletion:', updatedTasks);
-      return updatedTasks;
-    });
+    setTasks((currentTasks) => currentTasks.filter((task) => task.id !== id));
   };
 
-  if (!isAuthReady || userDataLoading) {
+  if (!isAuthReady || (isLoggedIn && userDataLoading)) {
     return (
       <div className="taskWrap w-3/4 md:w-1/2 flex flex-col items-center justify-center">
         <div className="text-white text-xl">Loading tasks...</div>

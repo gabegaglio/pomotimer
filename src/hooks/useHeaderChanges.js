@@ -50,9 +50,11 @@ const useHeaderChanges = (
 
   const handleTimeChange = (e, type) => {
     const value = e.target.value;
+    console.log('Time change in useHeaderChanges:', { type, value });
 
     // Allow empty input for backspacing
     if (value === '') {
+      console.log('Setting empty value for', type);
       if (type === 'pomo') setPomoInput('');
       if (type === 'short') setShortInput('');
       if (type === 'long') setLongInput('');
@@ -62,18 +64,23 @@ const useHeaderChanges = (
     // Only update if it's a valid number between 1 and 60
     const num = parseInt(value, 10);
     if (!isNaN(num) && num >= 0 && num <= 60) {
+      console.log('Setting new value for', type, ':', num);
       if (type === 'pomo') setPomoInput(num);
       if (type === 'short') setShortInput(num);
       if (type === 'long') setLongInput(num);
+    } else {
+      console.log('Invalid number:', num);
     }
   };
 
   const handleColorChange = (e) => {
-    setColor(e.target.value);
-    console.log('color change:', e.target.value);
+    const newColor = e.target.value;
+    console.log('Color change in useHeaderChanges:', newColor);
+    setColor(newColor);
   };
 
   const handleReset = () => {
+    console.log('Reset in useHeaderChanges');
     setPomoInput(25);
     setLongInput(15);
     setShortInput(5);
@@ -81,14 +88,14 @@ const useHeaderChanges = (
   };
 
   const handleBackgroundChange = (e) => {
+    console.log('Background change in useHeaderChanges');
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
         const backgroundURL = reader.result;
+        console.log('Setting new background in useHeaderChanges');
         setBackgroundPicture(backgroundURL);
-        localStorage.setItem('backgroundPicture', backgroundURL);
-        console.log('set background picture');
       };
       reader.readAsDataURL(file);
     }

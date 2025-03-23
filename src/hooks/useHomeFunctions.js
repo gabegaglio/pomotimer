@@ -3,14 +3,31 @@ import ding from '../assets/ding.mp3';
 
 const useFunctions = () => {
   // Get values from localStorage or defaults
-  const [pomoInput, setPomoInput] = useState(25);
-  const [longInput, setLongInput] = useState(15);
-  const [shortInput, setShortInput] = useState(5);
-  const [color, setColor] = useState('#368CE7');
-  const [backgroundPicture, setBackgroundPicture] = useState(null);
+  const [pomoInput, setPomoInput] = useState(() => {
+    const saved = localStorage.getItem('pomoInput');
+    return saved ? parseInt(saved, 10) : 25;
+  });
+
+  const [longInput, setLongInput] = useState(() => {
+    const saved = localStorage.getItem('longInput');
+    return saved ? parseInt(saved, 10) : 15;
+  });
+
+  const [shortInput, setShortInput] = useState(() => {
+    const saved = localStorage.getItem('shortInput');
+    return saved ? parseInt(saved, 10) : 5;
+  });
+
+  const [color, setColor] = useState(() => {
+    return localStorage.getItem('color') || '#368CE7';
+  });
+
+  const [backgroundPicture, setBackgroundPicture] = useState(() => {
+    return localStorage.getItem('backgroundPicture') || null;
+  });
 
   // Timer state
-  const [time, setTime] = useState(pomoInput * 60);
+  const [time, setTime] = useState(() => pomoInput * 60);
   const [isRunning, setIsRunning] = useState(false);
   const [startTimer, setStartTimer] = useState(false);
 

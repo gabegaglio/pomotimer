@@ -18,41 +18,201 @@ const Header = ({
   setBackgroundPicture,
   isLoggedIn,
   onSaveSettings,
+  updatePreferences,
 }) => {
   // Keep local state for the inputs while menu is open
   const [localPomo, setLocalPomo] = useState(pomoInput);
   const [localShort, setLocalShort] = useState(shortInput);
   const [localLong, setLocalLong] = useState(longInput);
+  const [localColor, setLocalColor] = useState(color);
+  const [localBackground, setLocalBackground] = useState(backgroundPicture);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const navigate = useNavigate();
-  const {
-    menuOpen,
-    toggleMenu,
-    handleTimeChange,
-    handleColorChange,
-    handleReset,
-    handleBackgroundChange,
-  } = useHeaderChanges(
-    color,
-    setColor,
-    setLocalPomo,
-    setLocalLong,
-    setLocalShort,
-    setBackgroundPicture,
-    () => {
-      // When menu closes, update parent state and save settings
+
+  // Handle menu toggle and save changes
+  const toggleMenu = () => {
+    const newMenuOpen = !menuOpen;
+    console.log('Menu state changing to:', newMenuOpen ? 'open' : 'closed');
+    console.log('Is logged in:', isLoggedIn);
+
+    if (!newMenuOpen) {
+      console.log('Menu closing, current values:', {
+        localPomo,
+        pomoInput,
+        localShort,
+        shortInput,
+        localLong,
+        longInput,
+        localColor,
+        color,
+        localBackground,
+        backgroundPicture,
+      });
+
+      // Update parent state
+      setPomoInput(localPomo);
+      setShortInput(localShort);
+      setLongInput(localLong);
+      setColor(localColor);
+      setBackgroundPicture(localBackground);
+
+      // Save changes
       if (isLoggedIn) {
-        setPomoInput(localPomo);
-        setShortInput(localShort);
-        setLongInput(localLong);
-        onSaveSettings({
-          pomodoro: localPomo,
-          shortBreak: localShort,
-          longBreak: localLong,
-        });
+        // Save to Firebase if logged in
+        if (
+          localPomo !== pomoInput ||
+          localShort !== shortInput ||
+          localLong !== longInput
+        ) {
+          console.log('Timer settings changed, saving to Firebase:', {
+            pomodoro: localPomo,
+            shortBreak: localShort,
+            longBreak: localLong,
+          });
+          onSaveSettings({
+            pomodoro: localPomo,
+            shortBreak: localShort,
+            longBreak: localLong,
+          });
+        }
+
+        if (localColor !== color || localBackground !== backgroundPicture) {
+          console.log('Preferences changed, saving to Firebase:', {
+            color: localColor,
+            backgroundPicture: localBackground,
+          });
+          updatePreferences({
+            color: localColor,
+            backgroundPicture: localBackground,
+          });
+        }
+      } else {
+        // Save to localStorage if guest user
+        console.log('Saving settings to localStorage for guest user');
+        localStorage.setItem('pomoInput', localPomo);
+        localStorage.setItem('shortInput', localShort);
+        localStorage.setItem('longInput', localLong);
+        localStorage.setItem('color', localColor);
+        if (localBackground) {
+          localStorage.setItem('backgroundPicture', localBackground);
+        } else {
+          localStorage.removeItem('backgroundPicture');
+        }
       }
+    } else {
+      // Menu is opening
+      // Sync local state with current values
+      setLocalPomo(pomoInput);
+      setLocalShort(shortInput);
+      setLocalLong(longInput);
+      setLocalColor(color);
+      setLocalBackground(backgroundPicture);
     }
-  );
+
+    // Update menu state and apply visual effects
+    setMenuOpen(newMenuOpen);
+
+    const contentWrap = document.querySelector('.contentContainer');
+    const taskContainer = document.querySelector('.taskContainer');
+    const desc = document.querySelector('.desc');
+    const logBtn = document.querySelector('.logBtn');
+    const settingBtn = document.querySelector('.menuDiv');
+    const taskWrap = document.querySelector('.taskWrap');
+
+    if (contentWrap && taskWrap && desc) {
+      const blurEffect = newMenuOpen ? 'blur(5px)' : 'none';
+      contentWrap.style.filter = blurEffect;
+      desc.style.filter = blurEffect;
+      taskWrap.style.filter = blurEffect;
+      logBtn.style.display = blurEffect === 'blur(5px)' ? 'none' : 'block';
+      settingBtn.style.display = blurEffect === 'blur(5px)' ? 'none' : 'flex';
+      taskContainer.style.filter = blurEffect;
+      taskWrap.style.filter = blurEffect;
+    }
+  };
+
+  // Handle time changes
+  const handleTimeChange = (e, type) => {
+    const value = e.target.value;
+    console.log('Time change:', { type, value });
+
+    if (value === '') {
+      if (type === 'pomo') setLocalPomo('');
+      if (type === 'short') setLocalShort('');
+      if (type === 'long') setLocalLong('');
+      return;
+    }
+
+    const num = parseInt(value, 10);
+    if (!isNaN(num) && num >= 0 && num <= 60) {
+      if (type === 'pomo') setLocalPomo(num);
+      if (type === 'short') setLocalShort(num);
+      if (type === 'long') setLocalLong(num);
+    }
+  };
+
+  // Handle color changes
+  const handleColorChange = (e) => {
+    const newColor = e.target.value;
+    console.log('Color change:', newColor);
+    setLocalColor(newColor);
+  };
+
+  // Handle background changes
+  const handleBackgroundChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const backgroundURL = reader.result;
+        console.log('Setting new background');
+        setLocalBackground(backgroundURL);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  // Handle reset
+  const handleReset = () => {
+    const defaultSettings = {
+      pomodoro: 25,
+      shortBreak: 5,
+      longBreak: 15,
+    };
+    const defaultPreferences = {
+      color: '#368CE7',
+      backgroundPicture: null,
+    };
+
+    // Update local state
+    setLocalPomo(defaultSettings.pomodoro);
+    setLocalShort(defaultSettings.shortBreak);
+    setLocalLong(defaultSettings.longBreak);
+    setLocalColor(defaultPreferences.color);
+    setLocalBackground(defaultPreferences.backgroundPicture);
+
+    // Update parent state
+    setPomoInput(defaultSettings.pomodoro);
+    setShortInput(defaultSettings.shortBreak);
+    setLongInput(defaultSettings.longBreak);
+    setColor(defaultPreferences.color);
+    setBackgroundPicture(defaultPreferences.backgroundPicture);
+
+    if (isLoggedIn) {
+      // Save to Firebase if logged in
+      onSaveSettings(defaultSettings);
+      updatePreferences(defaultPreferences);
+    } else {
+      // Save to localStorage if guest user
+      console.log('Saving default settings to localStorage for guest user');
+      localStorage.setItem('pomoInput', defaultSettings.pomodoro);
+      localStorage.setItem('shortInput', defaultSettings.shortBreak);
+      localStorage.setItem('longInput', defaultSettings.longBreak);
+      localStorage.setItem('color', defaultPreferences.color);
+      localStorage.removeItem('backgroundPicture');
+    }
+  };
 
   const handleSignOut = async () => {
     try {
@@ -85,7 +245,7 @@ const Header = ({
         <div className="fixed bg-opacity-50 inset-0 flex items-center justify-center z-50">
           <div
             className="text-white rounded-lg shadow-lg p-6 w-fit h-auto flex flex-col items-center relative"
-            style={{ backgroundColor: color }}
+            style={{ backgroundColor: localColor }}
           >
             <button
               className="absolute top-4 right-4 text-4xl font-bold text-gray-300 hover:text-white transition"
@@ -100,7 +260,7 @@ const Header = ({
 
             <div
               className="flex flex-col items-center w-full mt-4 space-y-6"
-              style={{ backgroundColor: color }}
+              style={{ backgroundColor: localColor }}
             >
               <div className="grid grid-rows-3 sm:grid-cols-3 sm:grid-rows-1 w-full h-auto gap-4">
                 {inputList.map((item, index) => (
@@ -142,7 +302,7 @@ const Header = ({
                 <input
                   id="colorInput"
                   type="color"
-                  value={color}
+                  value={localColor}
                   onChange={handleColorChange}
                   className="cursor-pointer w-0 h-0 text-md text-center bg-black border-black outline-none"
                 />

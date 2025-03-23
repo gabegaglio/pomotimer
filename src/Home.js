@@ -65,28 +65,8 @@ function Home({ isLoggedIn }) {
     setBackgroundPicture,
   ]);
 
-  // Save timer settings to Firestore when they change
-  useEffect(() => {
-    if (isLoggedIn) {
-      updateTimerSettings({
-        pomodoro: pomoInput,
-        shortBreak: shortInput,
-        longBreak: longInput,
-      });
-    }
-  }, [isLoggedIn, pomoInput, shortInput, longInput, updateTimerSettings]);
-
-  // Save preferences to Firestore when they change
-  useEffect(() => {
-    if (isLoggedIn) {
-      updatePreferences({
-        color,
-        backgroundPicture,
-      });
-    }
-  }, [isLoggedIn, color, backgroundPicture, updatePreferences]);
-
-  if (userDataLoading) {
+  // Only show loading screen for logged-in users
+  if (isLoggedIn && userDataLoading) {
     return (
       <div
         className="w-full h-screen flex items-center justify-center"
@@ -121,6 +101,7 @@ function Home({ isLoggedIn }) {
           setBackgroundPicture={setBackgroundPicture}
           isLoggedIn={isLoggedIn}
           onSaveSettings={updateTimerSettings}
+          updatePreferences={updatePreferences}
         />
         <div className="contentContainer w-full h-4/5 flex flex-col justify-center items-center">
           <Clock />

@@ -19,6 +19,7 @@
     "express": "^4.21.2",
     "firebase": "^11.5.0",
     "hamburgers": "^1.2.1",
+    "lodash.isequal": "^4.5.0",
     "lucide-react": "^0.479.0",
     "npm-check": "^6.0.1",
     "nth-check": "^2.1.1",
