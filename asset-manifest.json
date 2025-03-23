@@ -1,21 +1,19 @@
 {
   "files": {
-    "main.css": "/pomotimer/static/css/main.dc835907.css",
-    "main.js": "/pomotimer/static/js/main.a408e597.js",
+    "main.css": "/pomotimer/static/css/main.d55fc29f.css",
+    "main.js": "/pomotimer/static/js/main.dfd600fe.js",
     "static/media/quick_med.ttf": "/pomotimer/static/media/quick_med.a8b2db068fc584f9235c.ttf",
     "static/media/lex_med.ttf": "/pomotimer/static/media/lex_med.880b8ad34055d8f9e4e9.ttf",
     "static/media/ding.mp3": "/pomotimer/static/media/ding.407846db137a95bc10b4.mp3",
     "static/media/logo.svg": "/pomotimer/static/media/logo.c11b330536d91924e4b10cb4b9919551.svg",
     "static/media/settings.svg": "/pomotimer/static/media/settings.3e4543319b8ab5792acb4a7822ed4ad2.svg",
     "index.html": "/pomotimer/index.html",
-    "static/media/garb.svg": "/pomotimer/static/media/garb.3f0b77b86e342e6aca959a103ae283b4.svg",
-    "static/media/pencil.svg": "/pomotimer/static/media/pencil.58543c7cb6741b09df0538f22c1c93b9.svg",
-    "static/media/option.svg": "/pomotimer/static/media/option.03eb3c9cc203355026e07145cda06cd6.svg",
-    "main.dc835907.css.map": "/pomotimer/static/css/main.dc835907.css.map",
-    "main.a408e597.js.map": "/pomotimer/static/js/main.a408e597.js.map"
+    "static/media/option.svg": "/pomotimer/static/media/option.ce34a6a8e420ad518021ded5431e4016.svg",
+    "main.d55fc29f.css.map": "/pomotimer/static/css/main.d55fc29f.css.map",
+    "main.dfd600fe.js.map": "/pomotimer/static/js/main.dfd600fe.js.map"
   },
   "entrypoints": [
-    "static/css/main.dc835907.css",
-    "static/js/main.a408e597.js"
+    "static/css/main.d55fc29f.css",
+    "static/js/main.dfd600fe.js"
   ]
 }
