@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { signOut } from 'firebase/auth';
+import { auth } from './firebase';
 import { useNavigate } from 'react-router-dom';
+import useHeaderChanges from './hooks/useHeaderChanges';
 import Settings from './Settings.js';
-import useHeaderChanges from './hooks/useHeaderChanges.js';
 
 const Header = ({
   pomoInput,
@@ -14,8 +16,15 @@ const Header = ({
   setColor,
   backgroundPicture,
   setBackgroundPicture,
-  isLoggedIn
+  isLoggedIn,
+  onSaveSettings,
 }) => {
+  // Keep local state for the inputs while menu is open
+  const [localPomo, setLocalPomo] = useState(pomoInput);
+  const [localShort, setLocalShort] = useState(shortInput);
+  const [localLong, setLocalLong] = useState(longInput);
+
+  const navigate = useNavigate();
   const {
     menuOpen,
     toggleMenu,
@@ -26,29 +35,46 @@ const Header = ({
   } = useHeaderChanges(
     color,
     setColor,
-    setPomoInput,
-    setLongInput,
-    setShortInput,
-    setBackgroundPicture
+    setLocalPomo,
+    setLocalLong,
+    setLocalShort,
+    setBackgroundPicture,
+    () => {
+      // When menu closes, update parent state and save settings
+      if (isLoggedIn) {
+        setPomoInput(localPomo);
+        setShortInput(localShort);
+        setLongInput(localLong);
+        onSaveSettings({
+          pomodoro: localPomo,
+          shortBreak: localShort,
+          longBreak: localLong,
+        });
+      }
+    }
   );
 
-
-  
-  const navigate = useNavigate();
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+      navigate('/login');
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
+  };
 
   const inputList = [
-    { label: 'Pomodoro', value: pomoInput, type: 'pomo' },
-    { label: 'Short Break', value: shortInput, type: 'short' },
-    { label: 'Long Break', value: longInput, type: 'long' },
+    { label: 'Pomodoro', value: localPomo, type: 'pomo' },
+    { label: 'Short Break', value: localShort, type: 'short' },
+    { label: 'Long Break', value: localLong, type: 'long' },
   ];
 
-
   return (
-    <div className="p-2 md:p-5 width-100 flex justify-end ">
+    <div className="p-2 md:p-5 width-100 flex justify-end">
       <div className="flex flex-row justify-end items-center z-5000">
         <button
-          className="logBtn mx-4 text-white text-md md:text-xl  bg-white bg-opacity-20 hover:bg-opacity-30 hover:scale-105 rounded-lg transition px-2 py-1 duration-100 ease-in-out"
-          onClick={isLoggedIn ? undefined : () => navigate('/login')}
+          className="logBtn mx-4 text-white text-md md:text-xl bg-white bg-opacity-20 hover:bg-opacity-30 hover:scale-105 rounded-lg transition px-2 py-1 duration-100 ease-in-out"
+          onClick={isLoggedIn ? handleSignOut : () => navigate('/login')}
         >
           {isLoggedIn ? 'Logout' : 'Login'}
         </button>
@@ -61,7 +87,6 @@ const Header = ({
             className="text-white rounded-lg shadow-lg p-6 w-fit h-auto flex flex-col items-center relative"
             style={{ backgroundColor: color }}
           >
-            {/* Close Button - Now inside popMenu */}
             <button
               className="absolute top-4 right-4 text-4xl font-bold text-gray-300 hover:text-white transition"
               onClick={toggleMenu}
@@ -69,18 +94,14 @@ const Header = ({
               &times;
             </button>
 
-            {/* Settings Header */}
-            <p className="w-fit text-2xl font-semibold rounded-lg py-2 px-6 shadow-md text-center  bg-opacity-20">
+            <p className="w-fit text-2xl font-semibold rounded-lg py-2 px-6 shadow-md text-center bg-opacity-20">
               Settings
             </p>
 
-            {/* Inputs Container */}
             <div
               className="flex flex-col items-center w-full mt-4 space-y-6"
               style={{ backgroundColor: color }}
             >
-              {/* Time Inputs in a Grid */}
-
               <div className="grid grid-rows-3 sm:grid-cols-3 sm:grid-rows-1 w-full h-auto gap-4">
                 {inputList.map((item, index) => (
                   <div key={index} className="flex flex-col items-center">
@@ -98,7 +119,7 @@ const Header = ({
                   </div>
                 ))}
               </div>
-              {/* Background Upload */}
+
               <div className="flex flex-col items-center w-full">
                 <label className="block text-lg font-medium bg-white bg-opacity-20 rounded-md py-2 px-4 shadow-md text-center w-full cursor-pointer hover:bg-opacity-30">
                   Choose Background Picture
@@ -111,7 +132,6 @@ const Header = ({
                 </label>
               </div>
 
-              {/* Color Picker */}
               <div className="flex flex-col items-center w-full">
                 <label
                   htmlFor="colorInput"
@@ -128,7 +148,6 @@ const Header = ({
                 />
               </div>
 
-              {/* Reset Button */}
               <button
                 className="block text-lg font-medium bg-white bg-opacity-20 rounded-md py-2 px-4 shadow-md text-center w-full cursor-pointer hover:bg-opacity-30"
                 onClick={handleReset}

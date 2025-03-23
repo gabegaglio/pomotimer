@@ -1,25 +1,15 @@
-const Description = () => {
+import React from 'react';
+
+const Description = ({ mode }) => {
+  const descriptions = {
+    pomodoro: "Time to focus! Let's get some work done.",
+    shortBreak: "Take a short break. You've earned it!",
+    longBreak: 'Time for a longer break. Recharge and come back stronger!',
+  };
+
   return (
-    <div className="desc text-white w-3/4 md:w-1/2 flex flex-col items-left justify-center">
-      <h1 className="align-center">How To Use Pomodoro</h1>
-      <ol>
-        <li>Select a task you want to work on.</li>
-        <li>Start the timer for 25 minutes or of your choosing.</li>
-        <li>
-          Focus until the time runs out, be sure to avoid any distractions.
-        </li>
-        <li>When the timer runs out, take a short break for 5 minutes.</li>
-        <li>After the break, restart the timer and repeat.</li>
-        <li>
-          After four Pomodoro cycles, take a long break of 15 minutes or more.
-        </li>
-      </ol>
-      <h2>
-        Made by{' '}
-        <a target="_blank" href="https://github.com/gabegaglio">
-          gabegaglio
-        </a>
-      </h2>
+    <div className="desc text-white text-opacity-90 text-lg mt-4">
+      {descriptions[mode] || "Let's get started!"}
     </div>
   );
 };

@@ -1,23 +1,13 @@
 import { useState, useEffect } from 'react';
-import ding from '../assets/ding.mp3'; 
+import ding from '../assets/ding.mp3';
 
 const useFunctions = () => {
   // Get values from localStorage or defaults
-  const [pomoInput, setPomoInput] = useState(
-    localStorage.getItem('pomoInput') || 25
-  );
-  const [longInput, setLongInput] = useState(
-    localStorage.getItem('longInput') || 15
-  );
-  const [shortInput, setShortInput] = useState(
-    localStorage.getItem('shortInput') || 5
-  );
-  const [color, setColor] = useState(
-    localStorage.getItem('color') || '#666EE6'
-  );
-  const [backgroundPicture, setBackgroundPicture] = useState(
-    localStorage.getItem('backgroundPicture') || null
-  );
+  const [pomoInput, setPomoInput] = useState(25);
+  const [longInput, setLongInput] = useState(15);
+  const [shortInput, setShortInput] = useState(5);
+  const [color, setColor] = useState('#368CE7');
+  const [backgroundPicture, setBackgroundPicture] = useState(null);
 
   // Timer state
   const [time, setTime] = useState(pomoInput * 60);
@@ -48,16 +38,26 @@ const useFunctions = () => {
 
   // Timer logic
   useEffect(() => {
-    let timer;
+    let interval;
     if (startTimer && time > 0) {
       setIsRunning(true);
-      timer = setInterval(() => setTime((prevTime) => prevTime - 1), 1000);
+      interval = setInterval(() => {
+        setTime((prevTime) => {
+          if (prevTime <= 1) {
+            playSound();
+            setStartTimer(false);
+            setIsRunning(false);
+            return 0;
+          }
+          return prevTime - 1;
+        });
+      }, 1000);
     } else if (time === 0) {
+      setStartTimer(false);
       setIsRunning(false);
-      clearInterval(timer);
-      playSound();
     }
-    return () => clearInterval(timer);
+
+    return () => clearInterval(interval);
   }, [startTimer, time]);
 
   const playSound = () => {

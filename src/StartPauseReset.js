@@ -1,7 +1,6 @@
 import React from 'react';
 
-const StartPauseReset = ({onStart, onPause, onReset}) => {
-
+const StartPauseReset = ({ onStart, onPause, onReset }) => {
   const buttonList = [
     { name: 'start', id: 'start', function: onStart },
     { name: 'pause', id: 'pause', function: onPause },
@@ -16,7 +15,6 @@ const StartPauseReset = ({onStart, onPause, onReset}) => {
           className="w-full sm:text-2xl md:text-3xl whitespace-nowrap px-4 py-3 md:px-12 md:py-6 md:gap-10 text-white shadow-sm bg-white bg-opacity-20 rounded-lg hover:bg-opacity-5 hover:scale-105 transition duration-100 ease-in-out cursor-pointer flex items-center justify-center"
           onClick={btn.function}
         >
-          {' '}
           {btn.name}
         </button>
       ))}

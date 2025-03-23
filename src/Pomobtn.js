@@ -1,15 +1,12 @@
 import React from 'react';
-import { Button } from './components/ui/button';
-const Pomobtn = ({pomoTime,longTime,shortTime, onClick }) => {
-   
-//creates the list of buttons
-  const buttonList =[
-      { name: 'pomodoro', time: pomoTime, id:1 },
-      { name: 'short break', time: shortTime, id:2 },
-      { name: 'long break', time: longTime, id:3 },
+
+const Pomobtn = ({ pomoTime, longTime, shortTime, onClick }) => {
+  const buttonList = [
+    { name: 'pomodoro', time: pomoTime, id: 1 },
+    { name: 'short break', time: shortTime, id: 2 },
+    { name: 'long break', time: longTime, id: 3 },
   ];
 
-  //passes/iterates lists into DOM
   return (
     <div className="grid grid-cols-3 gap-5 place-items-center w-fit">
       {buttonList.map((btn) => (
@@ -23,6 +20,6 @@ const Pomobtn = ({pomoTime,longTime,shortTime, onClick }) => {
       ))}
     </div>
   );
-}
+};
 
 export default Pomobtn;

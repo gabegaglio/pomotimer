@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 const useHeaderChanges = (
   color,
@@ -7,11 +6,10 @@ const useHeaderChanges = (
   setPomoInput,
   setLongInput,
   setShortInput,
-  setBackgroundPicture
+  setBackgroundPicture,
+  onMenuClose
 ) => {
   const [menuOpen, setMenuOpen] = useState(false);
-
-  const [isLogged, setIsLogged] = useState(false);
 
   useEffect(() => {
     const body = document.querySelector('body');
@@ -23,8 +21,12 @@ const useHeaderChanges = (
   }, [color]);
 
   const toggleMenu = () => {
-    const newMenuOpen = !menuOpen; // sets newMenu to opposite of if menu is open
-    
+    const newMenuOpen = !menuOpen;
+
+    if (!newMenuOpen && onMenuClose) {
+      onMenuClose(); // Call the callback when menu is closing
+    }
+
     setMenuOpen(newMenuOpen);
 
     const contentWrap = document.querySelector('.contentContainer');
@@ -33,8 +35,8 @@ const useHeaderChanges = (
     const logBtn = document.querySelector('.logBtn');
     const settingBtn = document.querySelector('.menuDiv');
     const taskWrap = document.querySelector('.taskWrap');
-    
-    if (contentWrap && taskWrap && desc) { // check if elements exist then blur
+
+    if (contentWrap && taskWrap && desc) {
       const blurEffect = newMenuOpen ? 'blur(5px)' : 'none';
       contentWrap.style.filter = blurEffect;
       desc.style.filter = blurEffect;
@@ -43,24 +45,26 @@ const useHeaderChanges = (
       settingBtn.style.display = blurEffect === 'blur(5px)' ? 'none' : 'flex';
       taskContainer.style.filter = blurEffect;
       taskWrap.style.filter = blurEffect;
-
     }
   };
 
   const handleTimeChange = (e, type) => {
-    const newValue = e.target.value;
+    const value = e.target.value;
 
-    if (newValue === "") {
-      if (type === "pomo") setPomoInput("");
-      if (type === "short") setShortInput("");
-      if (type === "long") setLongInput("");
-    } else {
-      const num = parseInt(newValue, 10);
-      if (!isNaN(num)) {
-        if (type === "pomo") setPomoInput(num);
-        if (type === "short") setShortInput(num);
-        if (type === "long") setLongInput(num);
-      }
+    // Allow empty input for backspacing
+    if (value === '') {
+      if (type === 'pomo') setPomoInput('');
+      if (type === 'short') setShortInput('');
+      if (type === 'long') setLongInput('');
+      return;
+    }
+
+    // Only update if it's a valid number between 1 and 60
+    const num = parseInt(value, 10);
+    if (!isNaN(num) && num >= 0 && num <= 60) {
+      if (type === 'pomo') setPomoInput(num);
+      if (type === 'short') setShortInput(num);
+      if (type === 'long') setLongInput(num);
     }
   };
 
@@ -97,7 +101,6 @@ const useHeaderChanges = (
     handleColorChange,
     handleReset,
     handleBackgroundChange,
-    isLogged
   };
 };
 

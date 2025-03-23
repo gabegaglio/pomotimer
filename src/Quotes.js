@@ -1,16 +1,12 @@
-import useQuote from './hooks/useQuote.js';
+import React from 'react';
 
-
-function Quotes () {
-    
-    const { quote, author } = useQuote();
-
-    return (
-        <div className="width-fit bg-white-opacity-30">
-            <p className="text-center ">{quote}</p>
-            <p>- {author}</p>
-        </div>
-    )
+const Quotes = () => {
+  return (
+    <div className="quotes text-white text-center mt-8">
+      <p className="text-xl italic">"Time management is life management."</p>
+      <p className="text-sm mt-2">- Robin Sharma</p>
+    </div>
+  );
 };
 
-export default Quotes
+export default Quotes;

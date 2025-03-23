@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react';
 
-
-
-
 const Clock = () => {
   const [time, setTime] = useState('');
   const updateClock = () => {
@@ -16,13 +13,11 @@ const Clock = () => {
     setTime(time);
   };
 
-  //updateClock runs every second
   useEffect(() => {
     updateClock();
     const interval = setInterval(updateClock, 1000);
     return () => clearInterval(interval);
-  }, []); //[] is dependency array, only runs once on render of DOM
-  //value can be put in there so on change of it, it runs again
+  }, []);
 
   return (
     <div className="w-full mb-10 flex justify-center items-center bg-white bg-opacity-20">
