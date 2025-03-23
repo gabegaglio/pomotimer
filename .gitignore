@@ -8,6 +8,11 @@
 
 # production
 /build
+/static
+
+# cache
+.cache/
+node_modules/.cache/
 
 # misc
 .DS_Store
