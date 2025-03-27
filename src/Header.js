@@ -179,6 +179,9 @@ const Header = ({
         console.log('Setting new background');
         setLocalBackground(backgroundURL);
       };
+      reader.onerror = (error) => {
+        alert('Error reading file:', error);
+      };
       reader.readAsDataURL(file);
     }
   };
@@ -244,7 +247,7 @@ const Header = ({
     <div className="p-2 md:p-5 width-100 flex justify-end">
       <div className="flex flex-row justify-end items-center z-5000">
         <button
-          className="logBtn mx-4 text-white text-md md:text-xl bg-white bg-opacity-20 hover:bg-opacity-30 hover:scale-105 rounded-lg transition px-2 py-1 duration-100 ease-in-out"
+          className="logBtn mx-4 text-white text-md md:text-xl bg-white backdrop-blur-md bg-opacity-20 hover:bg-opacity-30 hover:scale-105 rounded-lg transition px-2 py-1 duration-100 ease-in-out"
           onClick={isLoggedIn ? handleSignOut : () => navigate('/login')}
         >
           {isLoggedIn ? 'Logout' : 'Login'}

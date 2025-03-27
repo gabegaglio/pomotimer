@@ -83,10 +83,10 @@ const TaskManager = ({ isLoggedIn, isRunning }) => {
 
   return (
     <div className="taskWrap w-full flex flex-col items-center justify-center py-4">
-      <div className="w-full max-w-3xl flex flex-col items-center justify-center">
+      <div className="w-full max-w-3xl flex flex-col items-center justify-center ">
         <TaskList tasks={tasks} deleteTask={deleteTask} setTasks={setTasks} />
       </div>
-      <div className="taskContainer w-full mt-10 max-w-3xl flex flex-col items-center justify-center bg-white bg-opacity-20 rounded-lg p-4">
+      <div className="taskContainer w-full mt-10 max-w-3xl flex flex-col items-center justify-center bg-white bg-opacity-20 backdrop-blur-md rounded-lg p-4">
         <CreateTask addTask={addTask} />
       </div>
     </div>

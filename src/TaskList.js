@@ -42,7 +42,7 @@ const TaskList = ({ tasks, deleteTask, setTasks }) => {
     // then resets the editTaskID to null to exit edit mode.
   };
   return (
-    <div className="taskDisplayContainer w-full space-y-4 max-h-[400px] overflow-y-auto">
+    <div className="taskDisplayContainer w-full space-y-4 max-h-[400px] overflow-y-auto backdrop-blur-md">
       {tasks.map((task, index) => (
         <div
           className="taskDisplay relative w-full bg-white bg-opacity-20 rounded-lg py-2 flex flex-col items-center justify-right w-full font-normal"

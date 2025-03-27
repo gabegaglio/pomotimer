@@ -20,7 +20,7 @@ const Clock = () => {
   }, []);
 
   return (
-    <div className="w-full mb-10 flex justify-center items-center bg-white bg-opacity-20">
+    <div className="w-full mb-10 flex justify-center items-center bg-white bg-opacity-20 backdrop-blur-md">
       <header className="text-white text-7xl md:text-8xl my-4">{time}</header>
     </div>
   );
