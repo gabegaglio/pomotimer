@@ -7,7 +7,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { Input } from './components/ui/input';
 import logo from './assets/logo.svg';
 import GoogleLogo from './components/ui/google-logo';
@@ -19,26 +19,32 @@ function Login() {
   const [error, setError] = useState('');
   const [isLogin, setIsLogin] = useState(true);
 
-  const createUserDocument = async (user) => {
-    try {
-      await setDoc(doc(db, 'users', user.uid), {
-        email: user.email,
-        timerSettings: {
-          pomodoro: 25,
-          shortBreak: 5,
-          longBreak: 15,
-        },
-        preferences: {
-          color: '#368CE7',
-          backgroundPicture: null,
-        },
-        tasks: [],
-        createdAt: new Date().toISOString(),
-      });
-    } catch (error) {
-      console.error('Error creating user document:', error);
-    }
-  };
+ const createUserDocument = async (user) => {
+   try {
+     const userDocRef = doc(db, 'users', user.uid);
+     const docSnap = await getDoc(userDocRef);
+    console.log('docSnap', docSnap.data());
+     // Only create document if it doesn't exist
+     if (!docSnap.exists()) {
+       await setDoc(userDocRef, {
+         email: user.email,
+         timerSettings: {
+           pomodoro: 25,
+           shortBreak: 5,
+           longBreak: 15,
+         },
+         preferences: {
+           color: '#368CE7',
+           backgroundPicture: null,
+         },
+         tasks: [],
+         createdAt: new Date().toISOString(),
+       });
+     }
+   } catch (error) {
+     console.error('Error creating user document:', error);
+   }
+ };
 
   const handleEmailAuth = async (e) => {
     e.preventDefault();
@@ -61,7 +67,7 @@ function Login() {
     try {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
-      await createUserDocument(result.user);
+      await createUserDocument(result.user); 
       navigate('/home');
     } catch (error) {
       setError(error.message);
@@ -77,7 +83,7 @@ function Login() {
 
       <div className="w-96 p-8 bg-white bg-opacity-20 rounded-lg shadow-lg">
         <form onSubmit={handleEmailAuth} className="space-y-4">
-          {error && <div className="text-red-200 text-center">{error}</div>}
+          {error && <div className="text-red-200 text-center">Error logging in</div>}
 
           <Input
             type="email"

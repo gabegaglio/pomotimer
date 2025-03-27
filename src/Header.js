@@ -50,29 +50,32 @@ const Header = ({
         backgroundPicture,
       });
 
-      // Update parent state
-      setPomoInput(localPomo);
-      setShortInput(localShort);
-      setLongInput(localLong);
-      setColor(localColor);
-      setBackgroundPicture(localBackground);
-
-      // Save changes
+      // Save changes first
       if (isLoggedIn) {
-        // Save to Firebase if logged in
-        if (
-          localPomo !== pomoInput ||
-          localShort !== shortInput ||
-          localLong !== longInput
-        ) {
-          console.log('Timer settings changed, saving to Firebase:', {
+        // Save only changed timer settings
+        if (localPomo !== pomoInput) {
+          console.log('Pomodoro time changed, saving to Firebase:', {
             pomodoro: localPomo,
-            shortBreak: localShort,
-            longBreak: localLong,
           });
           onSaveSettings({
             pomodoro: localPomo,
+          });
+        }
+
+        if (localShort !== shortInput) {
+          console.log('Short break time changed, saving to Firebase:', {
             shortBreak: localShort,
+          });
+          onSaveSettings({
+            shortBreak: localShort,
+          });
+        }
+
+        if (localLong !== longInput) {
+          console.log('Long break time changed, saving to Firebase:', {
+            longBreak: localLong,
+          });
+          onSaveSettings({
             longBreak: localLong,
           });
         }
@@ -100,6 +103,13 @@ const Header = ({
           localStorage.removeItem('backgroundPicture');
         }
       }
+
+      // Then update parent state
+      setPomoInput(localPomo);
+      setShortInput(localShort);
+      setLongInput(localLong);
+      setColor(localColor);
+      setBackgroundPicture(localBackground);
     } else {
       // Menu is opening
       // Sync local state with current values
@@ -212,8 +222,9 @@ const Header = ({
       localStorage.setItem('color', defaultPreferences.color);
       localStorage.removeItem('backgroundPicture');
     }
-  };
+  }; // end of handleReset
 
+  // handle sign out
   const handleSignOut = async () => {
     try {
       await signOut(auth);
@@ -221,7 +232,7 @@ const Header = ({
     } catch (error) {
       console.error('Error signing out:', error);
     }
-  };
+  }; // end of handleSignOut
 
   const inputList = [
     { label: 'Pomodoro', value: localPomo, type: 'pomo' },

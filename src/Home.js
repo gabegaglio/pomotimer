@@ -27,6 +27,7 @@ function Home({ isLoggedIn }) {
     handlePause,
     handleReset,
     handleButtonClick,
+    isRunning,
   } = useHomeFunctions();
 
   const {
@@ -35,6 +36,8 @@ function Home({ isLoggedIn }) {
     updateTimerSettings,
     updatePreferences,
   } = useUserData();
+
+  
 
   // Load user data when available
   useEffect(() => {
@@ -72,14 +75,14 @@ function Home({ isLoggedIn }) {
         className="w-full h-screen flex items-center justify-center"
         style={{ backgroundColor: color }}
       >
-        <div className="text-white text-xl">Loading your settings...</div>
+        <div className="text-white text-xl">Loading settings</div>
       </div>
     );
   }
 
   return (
     <div
-      className="App flex flex-col items-center justify-center bg-no-repeat bg-cover bg-fixed"
+      className="App min-h-screen flex flex-col items-center justify-between bg-no-repeat bg-cover bg-fixed"
       style={{
         backgroundColor: color,
         backgroundImage: backgroundPicture
@@ -87,7 +90,7 @@ function Home({ isLoggedIn }) {
           : 'none',
       }}
     >
-      <div className="contentWrap w-screen mb-5">
+      <div className="contentWrap w-screen flex-1 flex flex-col">
         <Header
           pomoInput={pomoInput}
           setPomoInput={setPomoInput}
@@ -103,7 +106,7 @@ function Home({ isLoggedIn }) {
           onSaveSettings={updateTimerSettings}
           updatePreferences={updatePreferences}
         />
-        <div className="contentContainer w-full h-4/5 flex flex-col justify-center items-center">
+        <div className="contentContainer flex-1 flex flex-col justify-center items-center">
           <Clock />
           <Pomobtn
             pomoTime={`${pomoInput}:00`}
@@ -119,8 +122,9 @@ function Home({ isLoggedIn }) {
           />
         </div>
       </div>
-      <TaskManager isLoggedIn={isLoggedIn} />
-      <Description />
+      <div className="w-3/4 flex flex-col items-center justify-center">
+        <TaskManager isLoggedIn={isLoggedIn} isRunning={isRunning} />
+      </div>
     </div>
   );
 }

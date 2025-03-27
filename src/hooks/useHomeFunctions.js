@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import ding from '../assets/ding.mp3';
 
-const useFunctions = () => {
+const useHomeFunctions = () => {
   // Get values from localStorage or defaults
   const [pomoInput, setPomoInput] = useState(() => {
     const saved = localStorage.getItem('pomoInput');
@@ -104,6 +104,7 @@ const useFunctions = () => {
     const [minutes, seconds] = clickedTime.split(':').map(Number);
     setTime(minutes * 60 + seconds);
     setStartTimer(false);
+    
   };
 
   return {
@@ -131,4 +132,4 @@ const useFunctions = () => {
   };
 };
 
-export default useFunctions;
+export default useHomeFunctions;

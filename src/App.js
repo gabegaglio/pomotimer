@@ -30,7 +30,7 @@ function App() {
         className="w-full h-screen flex items-center justify-center"
         style={{ backgroundColor: '#368CE7' }}
       >
-        <div className="text-white text-xl">Loading...</div>
+        <div className="text-white text-xl">Loading User...</div>
       </div>
     );
   }

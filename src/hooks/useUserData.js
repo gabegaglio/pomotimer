@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { doc, setDoc, getDoc, onSnapshot } from 'firebase/firestore';
+import { doc, setDoc, getDoc, onSnapshot, updateDoc } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth, db } from '../firebase';
 
@@ -18,12 +18,12 @@ const defaultUserData = {
 
 const useUserData = () => {
   const [userData, setUserData] = useState(defaultUserData);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false); // loading user data
   const [error, setError] = useState(null);
-  const [user, setUser] = useState(null);
-  const [isAuthReady, setIsAuthReady] = useState(false);
+  const [user, setUser] = useState(null); // if user is logged in / exists 
+  const [isAuthReady, setIsAuthReady] = useState(false); // if auth is ready
 
-  // Listen to auth state changes
+  // Listen to authentication state changes
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       console.log('Auth state changed:', user ? 'User logged in' : 'No user');
@@ -39,7 +39,7 @@ const useUserData = () => {
 
   // Listen to Firestore data changes
   useEffect(() => {
-    let unsubscribe = () => {};
+    let unsubscribe = () => {}; // empty function for cleanup when user changes
 
     const setupFirestoreListener = async () => {
       if (!user) {
@@ -56,8 +56,9 @@ const useUserData = () => {
         // First, check if the document exists
         const docSnap = await getDoc(userDocRef);
 
-        if (!docSnap.exists()) {
+        if (!docSnap.exists()) { // if user document does not exist
           console.log('Creating new user document');
+
           // Create initial document for new users
           const initialData = {
             email: user.email,
@@ -70,11 +71,14 @@ const useUserData = () => {
           await setDoc(userDocRef, initialData);
           setUserData(initialData);
           setLoading(false);
-        } else {
-          console.log('User document exists, merging data');
+        } else { // if user document exists
+          console.log('User document exists, loading existing data');
           const existingData = docSnap.data();
-          // Merge with defaults and set immediately
+          console.log('Raw existing data:', existingData);
+
+          // Keep all existing data, only merge defaults for missing fields
           const mergedData = {
+            ...existingData, // keep all existing data through array spread
             email: user.email,
             timerSettings: {
               ...defaultUserData.timerSettings,
@@ -87,6 +91,7 @@ const useUserData = () => {
             tasks: Array.isArray(existingData.tasks) ? existingData.tasks : [],
             createdAt: existingData.createdAt || new Date().toISOString(),
           };
+          console.log('Merged data:', mergedData);
 
           setUserData(mergedData);
           setLoading(false);
@@ -98,23 +103,26 @@ const useUserData = () => {
               if (doc.exists()) {
                 const data = doc.data();
                 console.log('Real-time update received:', data);
-                setUserData((prevData) => ({
-                  email: user.email,
-                  timerSettings: {
-                    ...defaultUserData.timerSettings,
-                    ...prevData.timerSettings,
-                    ...(data.timerSettings || {}),
-                  },
-                  preferences: {
-                    ...defaultUserData.preferences,
-                    ...prevData.preferences,
-                    ...(data.preferences || {}),
-                  },
-                  tasks: Array.isArray(data.tasks)
-                    ? data.tasks
-                    : prevData.tasks,
-                  createdAt: data.createdAt || prevData.createdAt,
-                }));
+                setUserData((prevData) => {
+                  // Keep all existing data and only update changed fields
+                  const updatedData = {
+                    ...prevData,
+                    email: user.email,
+                    timerSettings: {
+                      ...prevData.timerSettings,
+                      ...(data.timerSettings || {}),
+                    },
+                    preferences: {
+                      ...prevData.preferences,
+                      ...(data.preferences || {}),
+                    },
+                    tasks: Array.isArray(data.tasks)
+                      ? data.tasks
+                      : prevData.tasks,
+                  };
+                  console.log('Updated user data:', updatedData);
+                  return updatedData;
+                });
               }
             },
             (error) => {
@@ -197,13 +205,12 @@ const useUserData = () => {
 
       // Only save to Firestore if there are actual changes
       if (hasChanges) {
-        const mergedData = {
+        console.log('Saving changes to Firestore:', updateData);
+        await updateDoc(userDocRef, updateData);
+        return {
           ...currentData,
           ...updateData,
         };
-        console.log('Saving changes to Firestore:', updateData);
-        await setDoc(userDocRef, mergedData);
-        return mergedData;
       } else {
         console.log('No changes detected, skipping Firestore update');
         return currentData;
