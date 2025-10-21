@@ -7,8 +7,8 @@ import {
 } from 'react-router-dom';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase';
-import Home from './Home.js';
-import Login from './Login.js';
+import Home from './pages/Home.js';
+import Login from './pages/Login.js';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

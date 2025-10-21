@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
-import Header from './Header';
-import Clock from './Clock';
-import Pomobtn from './Pomobtn';
-import Timer from './Timer';
-import StartPauseReset from './StartPauseReset';
-import Description from './Description';
-import TaskManager from './TaskManager';
-import useHomeFunctions from './hooks/useHomeFunctions';
-import useUserData from './hooks/useUserData';
+import Header from '../components/layout/Header';
+import Clock from '../components/timer/Clock';
+import Pomobtn from '../components/timer/Pomobtn';
+import Timer from '../components/timer/Timer';
+import StartPauseReset from '../components/timer/StartPauseReset';
+import Description from '../components/layout/Description';
+import TaskManager from '../components/tasks/TaskManager';
+import useHomeFunctions from '../hooks/useHomeFunctions';
+import useUserData from '../hooks/useUserData';
 
 function Home({ isLoggedIn }) {
   const {
@@ -36,8 +36,6 @@ function Home({ isLoggedIn }) {
     updateTimerSettings,
     updatePreferences,
   } = useUserData();
-
-  
 
   // Load user data when available
   useEffect(() => {

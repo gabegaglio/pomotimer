@@ -3,8 +3,8 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from './components/ui/dropdown-menu';
-import option from './assets/option.svg';
+} from '../ui/dropdown-menu';
+import option from '../../assets/option.svg';
 import { useState } from 'react';
 
 // TaskList takes tasks and displays them

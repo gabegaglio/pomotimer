@@ -30,6 +30,7 @@ const useHomeFunctions = () => {
   const [time, setTime] = useState(() => pomoInput * 60);
   const [isRunning, setIsRunning] = useState(false);
   const [startTimer, setStartTimer] = useState(false);
+  const [selectedMode, setSelectedMode] = useState('pomodoro'); // Track which mode is selected: 'pomodoro', 'short', or 'long'
 
   // Save settings to localStorage whenever they change
   useEffect(() => {
@@ -40,10 +41,19 @@ const useHomeFunctions = () => {
     localStorage.setItem('backgroundPicture', backgroundPicture);
   }, [pomoInput, longInput, shortInput, color, backgroundPicture]);
 
-  // Update time when input changes
+  // Update time when input changes (if timer is not running)
   useEffect(() => {
-    setTime(pomoInput * 60);
-  }, [pomoInput]);
+    if (!isRunning) {
+      // Update time based on the currently selected mode
+      if (selectedMode === 'pomodoro') {
+        setTime(pomoInput * 60);
+      } else if (selectedMode === 'short') {
+        setTime(shortInput * 60);
+      } else if (selectedMode === 'long') {
+        setTime(longInput * 60);
+      }
+    }
+  }, [pomoInput, shortInput, longInput, isRunning, selectedMode]);
 
   // Apply background image
   useEffect(() => {
@@ -96,15 +106,31 @@ const useHomeFunctions = () => {
   const handlePause = () => setStartTimer(false);
   const handleReset = () => {
     setIsRunning(false);
-    setTime(pomoInput * 60);
     setStartTimer(false);
+    // Reset to the time based on currently selected mode
+    if (selectedMode === 'pomodoro') {
+      setTime(pomoInput * 60);
+    } else if (selectedMode === 'short') {
+      setTime(shortInput * 60);
+    } else if (selectedMode === 'long') {
+      setTime(longInput * 60);
+    }
   };
 
   const handleButtonClick = (clickedTime) => {
     const [minutes, seconds] = clickedTime.split(':').map(Number);
-    setTime(minutes * 60 + seconds);
+    const timeInSeconds = minutes * 60 + seconds;
+    setTime(timeInSeconds);
     setStartTimer(false);
-    
+
+    // Determine which mode was clicked based on the time
+    if (timeInSeconds === pomoInput * 60) {
+      setSelectedMode('pomodoro');
+    } else if (timeInSeconds === shortInput * 60) {
+      setSelectedMode('short');
+    } else if (timeInSeconds === longInput * 60) {
+      setSelectedMode('long');
+    }
   };
 
   return {
