@@ -1,6 +1,6 @@
 # 🍅 Gabes Pomo - Pomodoro Timer
 
-A beautiful, modern Pomodoro timer web application to help you stay focused and productive. Built with React and Firebase, this fully serverless app helps you manage your time effectively using the Pomodoro Technique.
+A simple, modern Pomodoro app with customizable Pomodoro time increments and task management functionality
 
 [![View Live App](https://img.shields.io/badge/View%20Live%20App-368CE7?style=for-the-badge&logo=google-chrome&logoColor=white)](https://gabegaglio.github.io/pomotimer/)
 
@@ -27,7 +27,6 @@ A beautiful, modern Pomodoro timer web application to help you stay focused and 
 - **Styling**: Tailwind CSS 4
 - **Backend**: Firebase (Firestore + Authentication)
 - **Routing**: React Router v7
-- **UI Components**: Radix UI
 - **Hosting**: GitHub Pages
 
 ## 🏗️ Architecture
