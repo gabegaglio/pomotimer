@@ -4,18 +4,6 @@ A beautiful, modern Pomodoro timer web application to help you stay focused and 
 
 [![View Live App](https://img.shields.io/badge/View%20Live%20App-368CE7?style=for-the-badge&logo=google-chrome&logoColor=white)](https://gabegaglio.github.io/pomotimer/)
 
-## 📸 Screenshots
-
-### Main Timer Interface
-
-![Pomotimer Main Screen](docs/screenshots/timer-interface.png)
-_Clean, distraction-free timer interface with customizable work and break periods_
-
-### Task Management
-
-![Task Management](docs/screenshots/task-management.png)
-_Built-in task manager to keep track of what you're working on_
-
 ## ✨ Features
 
 - **⏱️ Customizable Timers**: Set your own durations for Pomodoro sessions, short breaks, and long breaks
